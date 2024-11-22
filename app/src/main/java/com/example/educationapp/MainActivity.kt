@@ -29,8 +29,16 @@ class MainActivity : ComponentActivity() {
         setContent {
             EducationAppTheme(dynamicColor = false) {
                 val navController = rememberNavController()
+                // Track current route
+                var currentRoute by remember { mutableStateOf("home") }
                 
-                // File picker launcher
+                // Update currentRoute when navigation happens
+                LaunchedEffect(navController) {
+                    navController.currentBackStackEntryFlow.collect { backStackEntry ->
+                        currentRoute = backStackEntry.destination.route ?: "home"
+                    }
+                }
+                
                 val pickDocument = rememberLauncherForActivityResult(
                     contract = ActivityResultContracts.GetContent()
                 ) { uri ->
@@ -50,21 +58,27 @@ class MainActivity : ComponentActivity() {
                                 modifier = Modifier.height(64.dp),
                                 containerColor = Color.Transparent
                             ) {
-                                val currentRoute = navController
-                                    .currentBackStackEntry?.destination?.route ?: "home"
-                                
                                 NavigationBarItem(
                                     icon = { Icon(Icons.Filled.Home, contentDescription = "Home") },
                                     label = { Text("Home") },
                                     selected = currentRoute == "home",
-                                    onClick = { navController.navigate("home") }
+                                    onClick = { 
+                                        navController.navigate("home") {
+                                            // Pop up to the start destination and clear the back stack
+                                            popUpTo("home") { inclusive = true }
+                                        }
+                                    }
                                 )
                                 
                                 NavigationBarItem(
                                     icon = { Icon(Icons.Filled.Star, contentDescription = "Study") },
                                     label = { Text("Study") },
                                     selected = currentRoute == "study",
-                                    onClick = { navController.navigate("study") }
+                                    onClick = { 
+                                        navController.navigate("study") {
+                                            popUpTo("home")
+                                        }
+                                    }
                                 )
                                 
                                 NavigationBarItem(
@@ -87,14 +101,22 @@ class MainActivity : ComponentActivity() {
                                     icon = { Icon(Icons.Filled.Email, contentDescription = "Library") },
                                     label = { Text("Library") },
                                     selected = currentRoute == "library",
-                                    onClick = { navController.navigate("library") }
+                                    onClick = { 
+                                        navController.navigate("library") {
+                                            popUpTo("home")
+                                        }
+                                    }
                                 )
                                 
                                 NavigationBarItem(
                                     icon = { Icon(Icons.Filled.Person, contentDescription = "Profile") },
                                     label = { Text("Profile") },
                                     selected = currentRoute == "profile",
-                                    onClick = { navController.navigate("profile") }
+                                    onClick = { 
+                                        navController.navigate("profile") {
+                                            popUpTo("home")
+                                        }
+                                    }
                                 )
                             }
                         }
