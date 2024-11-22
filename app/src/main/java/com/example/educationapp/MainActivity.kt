@@ -22,6 +22,7 @@ import com.example.educationapp.ui.theme.EducationAppTheme
 import com.example.educationapp.ui.DocumentDetailScreen
 import com.example.educationapp.ui.HomeScreen
 import com.example.educationapp.ui.ProfileScreen
+import com.example.educationapp.ui.LibraryScreen
 
 @OptIn(ExperimentalMaterial3Api::class)
 class MainActivity : ComponentActivity() {
@@ -143,7 +144,14 @@ class MainActivity : ComponentActivity() {
                                 Text("Study Screen")
                             }
                             composable("library") {
-                                Text("Library Screen")
+                                LibraryScreen(
+                                    onDocumentClick = { document ->
+                                        navController.navigate("document_detail")
+                                    },
+                                    onFolderClick = { folder ->
+                                        // TODO: Navigate to folder contents
+                                    }
+                                )
                             }
                             composable("profile") {
                                 ProfileScreen()
