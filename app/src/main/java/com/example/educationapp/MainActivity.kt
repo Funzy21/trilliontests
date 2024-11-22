@@ -21,6 +21,7 @@ import com.example.educationapp.model.Document
 import com.example.educationapp.ui.theme.EducationAppTheme
 import com.example.educationapp.ui.DocumentDetailScreen
 import com.example.educationapp.ui.HomeScreen
+import com.example.educationapp.ui.ProfileScreen
 
 @OptIn(ExperimentalMaterial3Api::class)
 class MainActivity : ComponentActivity() {
@@ -145,7 +146,7 @@ class MainActivity : ComponentActivity() {
                                 Text("Library Screen")
                             }
                             composable("profile") {
-                                Text("Profile Screen")
+                                ProfileScreen()
                             }
                             composable("document_detail") {
                                 DocumentDetailScreen(
