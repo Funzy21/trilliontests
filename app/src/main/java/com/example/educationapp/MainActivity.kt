@@ -85,11 +85,15 @@ class MainActivity : ComponentActivity() {
                                     icon = { 
                                         FloatingActionButton(
                                             onClick = { pickDocument.launch("application/pdf") },
-                                            modifier = Modifier.size(48.dp),
+                                            modifier = Modifier.size(38.dp),
                                             containerColor = MaterialTheme.colorScheme.primary,
                                             contentColor = MaterialTheme.colorScheme.onPrimary
                                         ) {
-                                            Icon(Icons.Filled.Add, contentDescription = "Upload")
+                                            Icon(
+                                                Icons.Filled.Add, 
+                                                contentDescription = "Upload",
+                                                modifier = Modifier.size(20.dp)
+                                            )
                                         }
                                     },
                                     selected = false,
