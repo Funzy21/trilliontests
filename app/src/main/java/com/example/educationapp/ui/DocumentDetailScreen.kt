@@ -1,11 +1,16 @@
 package com.example.educationapp.ui
 
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.unit.dp
 import com.example.educationapp.model.Document
 
@@ -14,57 +19,70 @@ import com.example.educationapp.model.Document
 fun DocumentDetailScreen(
     document: Document,
     onGenerateQuiz: () -> Unit,
-    onGenerateFlashcards: () -> Unit
+    onGenerateFlashcards: () -> Unit,
+    currentRoute: String,
+    onNavigate: (String) -> Unit
 ) {
     Scaffold(
         bottomBar = {
-            NavigationBar {
-                // Home tab
-                NavigationBarItem(
-                    icon = { Icon(Icons.Filled.Home, contentDescription = "Home") },
-                    label = { Text("Home") },
-                    selected = true, // You'll want to make this dynamic later
-                    onClick = { /* TODO: Navigate to Home */ }
-                )
-                
-                // Study tab
-                NavigationBarItem(
-                    icon = { Icon(Icons.Filled.Star, contentDescription = "Study") },
-                    label = { Text("Study") },
-                    selected = false,
-                    onClick = { /* TODO: Navigate to Study */ }
-                )
-                
-                // FAB for upload
-                NavigationBarItem(
-                    icon = { 
-                        FloatingActionButton(
-                            onClick = { /* TODO: Handle upload */ },
-                            modifier = Modifier.size(48.dp)
-                        ) {
-                            Icon(Icons.Filled.Add, contentDescription = "Upload")
-                        }
-                    },
-                    selected = false,
-                    onClick = { /* TODO: Handle upload */ },
-                    label = { Text("Upload") }
-                )
-                
-                // Library tab
-                NavigationBarItem(
-                    icon = { Icon(Icons.Filled.Email, contentDescription = "Library") },
-                    label = { Text("Library") },
-                    selected = false,
-                    onClick = { /* TODO: Navigate to Library */ }
-                )
-                
-                // Profile tab
-                NavigationBarItem(
-                    icon = { Icon(Icons.Filled.Person, contentDescription = "Profile") },
-                    label = { Text("Profile") },
-                    selected = false,
-                    onClick = { /* TODO: Navigate to Profile */ }
-                )
+            Surface(
+                modifier = Modifier.padding(16.dp),
+                shape = RoundedCornerShape(24.dp),
+                tonalElevation = 8.dp
+            ) {
+                NavigationBar(
+                    modifier = Modifier.height(64.dp),
+                    containerColor = Color.Transparent
+                ) {
+                    // Home tab
+                    NavigationBarItem(
+                        icon = { Icon(Icons.Filled.Home, contentDescription = "Home") },
+                        label = { Text("Home") },
+                        selected = currentRoute == "home",
+                        onClick = { onNavigate("home") }
+                    )
+                    
+                    // Study tab
+                    NavigationBarItem(
+                        icon = { Icon(Icons.Filled.Star, contentDescription = "Study") },
+                        label = { Text("Study") },
+                        selected = currentRoute == "study",
+                        onClick = { onNavigate("study") }
+                    )
+                    
+                    // FAB for upload
+                    NavigationBarItem(
+                        icon = { 
+                            FloatingActionButton(
+                                onClick = { onNavigate("upload") },
+                                modifier = Modifier.size(48.dp),
+                                containerColor = MaterialTheme.colorScheme.primary,
+                                contentColor = MaterialTheme.colorScheme.onPrimary
+                            ) {
+                                Icon(Icons.Filled.Add, contentDescription = "Upload")
+                            }
+                        },
+                        selected = currentRoute == "upload",
+                        onClick = { onNavigate("upload") },
+                        label = { Text("Upload") }
+                    )
+                    
+                    // Library tab
+                    NavigationBarItem(
+                        icon = { Icon(Icons.Filled.Email, contentDescription = "Library") },
+                        label = { Text("Library") },
+                        selected = currentRoute == "library",
+                        onClick = { onNavigate("library") }
+                    )
+                    
+                    // Profile tab
+                    NavigationBarItem(
+                        icon = { Icon(Icons.Filled.Person, contentDescription = "Profile") },
+                        label = { Text("Profile") },
+                        selected = currentRoute == "profile",
+                        onClick = { onNavigate("profile") }
+                    )
+                }
             }
         }
     ) { paddingValues ->
