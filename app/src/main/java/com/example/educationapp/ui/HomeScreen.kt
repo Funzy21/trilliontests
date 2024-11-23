@@ -57,7 +57,7 @@ fun HomeScreen() {
         
         Spacer(modifier = Modifier.height(24.dp))
 
-        // Streak Section
+        // Displaying current login streak
         Card(
             modifier = Modifier.fillMaxWidth(),
             colors = CardDefaults.cardColors(
@@ -77,7 +77,7 @@ fun HomeScreen() {
                 )
                 Spacer(modifier = Modifier.width(8.dp))
                 Text(
-                    text = "7 Day Streak!",
+                    text = "1 Day Streak!",
                     style = MaterialTheme.typography.titleMedium
                 )
             }
@@ -85,7 +85,7 @@ fun HomeScreen() {
 
         Spacer(modifier = Modifier.height(24.dp))
 
-        // Recent Activity Section
+        // Shows the user's recent activity (most recently accessed documents)
         Text(
             text = "Recent Activity",
             style = MaterialTheme.typography.titleLarge
@@ -128,7 +128,7 @@ fun HomeScreen() {
 
         Spacer(modifier = Modifier.height(24.dp))
 
-        // Reminders Section
+        // Allows users to set reminders
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween,

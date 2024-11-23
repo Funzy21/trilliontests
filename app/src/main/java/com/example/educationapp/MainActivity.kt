@@ -23,6 +23,7 @@ import com.example.educationapp.ui.DocumentDetailScreen
 import com.example.educationapp.ui.HomeScreen
 import com.example.educationapp.ui.ProfileScreen
 import com.example.educationapp.ui.LibraryScreen
+import com.example.educationapp.ui.StudyScreen
 
 @OptIn(ExperimentalMaterial3Api::class)
 class MainActivity : ComponentActivity() {
@@ -141,7 +142,12 @@ class MainActivity : ComponentActivity() {
                                 HomeScreen()
                             }
                             composable("study") {
-                                Text("Study Screen")
+                                StudyScreen(
+                                    onStartQuiz = { quiz ->
+                                        // TODO: Navigate to quiz screen
+                                        // navController.navigate("quiz/${quiz.id}")
+                                    }
+                                )
                             }
                             composable("library") {
                                 LibraryScreen(

@@ -7,14 +7,14 @@ data class Document(
     val summary: String? = null
 )
 
-data class Quiz(
+data class GeneratedQuiz(
     val id: String,
     val documentId: String,
     val questions: List<Question>
 )
 
 data class Question(
-    val id: String,
+    val id: String,  /**/
     val question: String,
     val correctAnswer: String,
     val options: List<String>
