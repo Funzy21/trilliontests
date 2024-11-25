@@ -7,6 +7,7 @@ data class Document(
     val summary: String? = null
 )
 
+//This is for future use; class for the AI generated quiz feature
 data class GeneratedQuiz(
     val id: String,
     val documentId: String,
@@ -14,7 +15,7 @@ data class GeneratedQuiz(
 )
 
 data class Question(
-    val id: String,  /**/
+    val id: String,
     val question: String,
     val correctAnswer: String,
     val options: List<String>
