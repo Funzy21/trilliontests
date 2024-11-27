@@ -8,5 +8,6 @@ data class Quiz(
     val questionCount: Int,
     val imageUrl: String? = null,
     val concepts: List<String>,
-    val description: String
+    val description: String,
+    val questions: List<QuizQuestion> = emptyList()
 ) 

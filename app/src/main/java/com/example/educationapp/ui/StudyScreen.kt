@@ -37,6 +37,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import com.example.educationapp.model.Quiz
+import com.example.educationapp.model.QuizQuestion
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -46,18 +47,78 @@ fun StudyScreen(
     // Placeholder quizzes
     val quizzes = listOf(
         Quiz(
+            id = "sample",
+            title = "Sample Math Quiz",
+            subject = "Mathematics",
+            grade = "General",
+            questionCount = 5,
+            concepts = listOf(
+                "Basic Arithmetic",
+                "Simple Mathematics",
+                "Number Sense"
+            ),
+            description = "A simple quiz to get familiar with the quiz interface. Test your basic math skills!",
+            questions = listOf(
+                QuizQuestion(
+                    id = "1",
+                    question = "What is 2 + 2?",
+                    options = listOf("3", "4", "5", "6"),
+                    correctAnswer = "4"
+                ),
+                QuizQuestion(
+                    id = "2",
+                    question = "What is 5 × 5?",
+                    options = listOf("20", "25", "30", "35"),
+                    correctAnswer = "25"
+                ),
+                QuizQuestion(
+                    id = "3",
+                    question = "What is 10 ÷ 2?",
+                    options = listOf("3", "4", "5", "6"),
+                    correctAnswer = "5"
+                ),
+                QuizQuestion(
+                    id = "4",
+                    question = "What is 15 - 7?",
+                    options = listOf("6", "7", "8", "9"),
+                    correctAnswer = "8"
+                ),
+                QuizQuestion(
+                    id = "5",
+                    question = "What is 3 × 4?",
+                    options = listOf("10", "11", "12", "13"),
+                    correctAnswer = "12"
+                )
+            )
+        ),
+        Quiz(
             id = "1",
             title = "8th Grade Math",
             subject = "Mathematics",
             grade = "8th",
             questionCount = 20,
-                concepts = listOf(
+            concepts = listOf(
                 "Linear Equations",
                 "Pythagorean Theorem",
                 "Data Analysis",
                 "Basic Geometry"
             ),
-            description = "Test your understanding of key 8th grade math concepts including linear equations, geometry, and data analysis."
+            description = "Test your understanding of key 8th grade math concepts including linear equations, geometry, and data analysis.",
+            questions = listOf(
+                QuizQuestion(
+                    id = "1",
+                    question = "What is 2 + 2?",
+                    options = listOf("3", "4", "5", "6"),
+                    correctAnswer = "4"
+                ),
+                QuizQuestion(
+                    id = "2",
+                    question = "What is 5 × 5?",
+                    options = listOf("20", "25", "30", "35"),
+                    correctAnswer = "25"
+                )
+                // Add more questions as needed
+            )
         ),
         Quiz(
             id = "2",
