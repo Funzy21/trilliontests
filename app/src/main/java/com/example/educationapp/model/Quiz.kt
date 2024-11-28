@@ -6,8 +6,7 @@ data class Quiz(
     val subject: String,
     val grade: String,
     val questionCount: Int,
-    val imageUrl: String? = null,
     val concepts: List<String>,
     val description: String,
     val questions: List<QuizQuestion> = emptyList()
-) 
+)

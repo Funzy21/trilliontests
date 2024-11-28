@@ -1,3 +1,5 @@
+package com.example.educationapp.service
+
 import com.example.educationapp.model.Flashcard
 import com.example.educationapp.model.GeneratedQuiz
 
