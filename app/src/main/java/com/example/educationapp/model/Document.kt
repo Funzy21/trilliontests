@@ -4,7 +4,10 @@ data class Document(
     val id: String,
     val title: String,
     val content: String,
-    val summary: String? = null
+    val summary: String? = null,
+    val createdAt: Long = System.currentTimeMillis(),
+    val lastModified: Long = System.currentTimeMillis(),
+    val tags: List<String> = emptyList()
 )
 
 //This is for future use; class for the AI generated quiz feature

@@ -33,6 +33,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -42,13 +44,17 @@ import com.example.educationapp.ui.DocumentDetailScreen
 import com.example.educationapp.ui.HomeScreen
 import com.example.educationapp.ui.LibraryScreen
 import com.example.educationapp.ui.ProfileScreen
-import com.example.educationapp.ui.StudyScreen
 import com.example.educationapp.ui.theme.EducationAppTheme
 import com.example.educationapp.ui.quiz.QuizScreen
 import com.example.educationapp.model.QuizQuestion
 import com.example.educationapp.model.QuizResult
+import com.example.educationapp.ui.study.StudyScreen
+import com.example.educationapp.ui.study.StudyViewModel
+import dagger.hilt.android.AndroidEntryPoint
+import dagger.hilt.android.lifecycle.HiltViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -200,58 +206,20 @@ class MainActivity : ComponentActivity() {
                             }
                             composable("quiz/{quizId}") { backStackEntry ->
                                 val quizId = backStackEntry.arguments?.getString("quizId")
-                                // For now, we'll use dummy data
-                                val dummyQuestions = listOf(
-                                    QuizQuestion(
-                                        id = "1",
-                                        question = "What is 2 + 2?",
-                                        options = listOf("3", "4", "5", "6"),
-                                        correctAnswer = "4"
-                                    ),
-                                    QuizQuestion(
-                                        id = "2",
-                                        question = "What is 5 × 5?",
-                                        options = listOf("20", "25", "30", "35"),
-                                        correctAnswer = "25"
-                                    ),
-                                    QuizQuestion(
-                                        id = "3",
-                                        question = "What is 10 ÷ 2?",
-                                        options = listOf("3", "4", "5", "6"),
-                                        correctAnswer = "5"
-                                    ),
-                                    QuizQuestion(
-                                        id = "4",
-                                        question = "What is 15 - 7?",
-                                        options = listOf("6", "7", "8", "9"),
-                                        correctAnswer = "8"
-                                    ),
-                                    QuizQuestion(
-                                        id = "5",
-                                        question = "What is 3 × 4?",
-                                        options = listOf("10", "11", "12", "13"),
-                                        correctAnswer = "12"
-                                    )
-                                )
+                                val quizViewModel: StudyViewModel = hiltViewModel()
+                                val quiz by quizViewModel.loadQuiz(quizId ?: "").collectAsStateWithLifecycle()
                                 
-                                QuizScreen(
-                                    quiz = Quiz(
-                                        id = quizId ?: "1",
-                                        title = "Math Quiz",
-                                        subject = "Mathematics",
-                                        grade = "8th",
-                                        questionCount = dummyQuestions.size,
-                                        concepts = listOf("Basic Arithmetic"),
-                                        description = "Test your math skills",
-                                        questions = dummyQuestions
-                                    ),
-                                    onQuizComplete = { result ->
-                                        // Handle quiz completion (e.g., save results)
-                                    },
-                                    onExit = {
-                                        navController.navigateUp()
-                                    }
-                                )
+                                quiz?.let { currentQuiz ->
+                                    QuizScreen(
+                                        quiz = currentQuiz,
+                                        onQuizComplete = { result ->
+                                            // Handle quiz completion
+                                        },
+                                        onExit = {
+                                            navController.navigateUp()
+                                        }
+                                    )
+                                }
                             }
                         }
                     }
