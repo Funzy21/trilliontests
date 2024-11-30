@@ -4,6 +4,7 @@ import android.content.Context
 import com.example.educationapp.data.local.AppDatabase
 import com.example.educationapp.data.local.dao.QuizDao
 import com.example.educationapp.data.repository.QuizRepository
+import com.example.educationapp.data.repository.UserRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -30,5 +31,11 @@ object AppModule {
     @Singleton
     fun provideQuizRepository(quizDao: QuizDao): QuizRepository {
         return QuizRepository(quizDao)
+    }
+    
+    @Provides
+    @Singleton
+    fun provideUserRepository(): UserRepository {
+        return UserRepository()
     }
 } 

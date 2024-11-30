@@ -58,6 +58,8 @@ import com.example.educationapp.model.QuizQuestion
 import com.example.educationapp.model.QuizResult
 import com.example.educationapp.ui.study.StudyScreen
 import com.example.educationapp.ui.study.StudyViewModel
+import com.example.educationapp.ui.auth.SignInScreen
+import com.example.educationapp.ui.auth.AuthViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.lifecycle.HiltViewModel
 
@@ -69,130 +71,127 @@ class MainActivity : ComponentActivity() {
         setContent {
             EducationAppTheme(dynamicColor = false) {
                 val navController = rememberNavController()
-                // Track current route
-                var currentRoute by remember { mutableStateOf("home") }
+                var currentRoute by remember { mutableStateOf("auth") }
+                val authViewModel: AuthViewModel = hiltViewModel()
+                val isAuthenticated by authViewModel.isAuthenticated.collectAsStateWithLifecycle()
 
-                // Update currentRoute when navigation happens
                 LaunchedEffect(navController) {
                     navController.currentBackStackEntryFlow.collect { backStackEntry ->
-                        currentRoute = backStackEntry.destination.route ?: "home"
+                        currentRoute = backStackEntry.destination.route ?: "auth"
                     }
                 }
 
-                val pickDocument = rememberLauncherForActivityResult(
-                    contract = ActivityResultContracts.GetContent()
-                ) { uri ->
-                    uri?.let {
-                        navController.navigate("document_detail")
-                    }
-                }
+                // Only show bottom navigation when authenticated or in offline mode
+                val showBottomNav = currentRoute != "auth"
 
                 Scaffold(
                     bottomBar = {
-                        Column(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                        ) {
-                            // Top border
-                            Box(
+                        if (showBottomNav) {
+                            Column(
                                 modifier = Modifier
                                     .fillMaxWidth()
-                                    .height(1.dp)
-                                    .background(Color.Black.copy(alpha = 0.2f))
-                            )
-                            
-                            NavigationBar(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .height(64.dp),
-                                containerColor = MaterialTheme.colorScheme.surface,
-                                tonalElevation = 0.dp
                             ) {
-                                // Home tab
-                                NavigationBarItem(
-                                    icon = { 
-                                        Icon(
-                                            Icons.Filled.Home, 
-                                            contentDescription = "Home",
-                                            modifier = Modifier.size(24.dp)
-                                        ) 
-                                    },
-                                    label = { Text("Home") },
-                                    selected = currentRoute == "home",
-                                    onClick = {
-                                        navController.navigate("home") {
-                                            popUpTo("home") { inclusive = true }
-                                        }
-                                    }
+                                // Top border
+                                Box(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .height(1.dp)
+                                        .background(Color.Black.copy(alpha = 0.2f))
                                 )
                                 
-                                // Study tab
-                                NavigationBarItem(
-                                    icon = { 
-                                        Icon(
-                                            Icons.Filled.Star, 
-                                            contentDescription = "Study",
-                                            modifier = Modifier.size(24.dp)
-                                        ) 
-                                    },
-                                    label = { Text("Study") },
-                                    selected = currentRoute == "study",
-                                    onClick = {
-                                        navController.navigate("study") {
-                                            popUpTo("home")
+                                NavigationBar(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .height(64.dp),
+                                    containerColor = MaterialTheme.colorScheme.surface,
+                                    tonalElevation = 0.dp
+                                ) {
+                                    // Home tab
+                                    NavigationBarItem(
+                                        icon = { 
+                                            Icon(
+                                                Icons.Filled.Home, 
+                                                contentDescription = "Home",
+                                                modifier = Modifier.size(24.dp)
+                                            ) 
+                                        },
+                                        label = { Text("Home") },
+                                        selected = currentRoute == "home",
+                                        onClick = {
+                                            navController.navigate("home") {
+                                                popUpTo("home") { inclusive = true }
+                                            }
                                         }
-                                    }
-                                )
-                                
-                                // Center tab
-                                NavigationBarItem(
-                                    icon = { 
-                                        Icon(
-                                            Icons.Filled.Add, 
-                                            contentDescription = "Upload",
-                                            modifier = Modifier.size(24.dp)
-                                        )
-                                    },
-                                    label = { Text("Upload") },
-                                    selected = false,
-                                    onClick = { pickDocument.launch("application/pdf") }
-                                )
-                                
-                                // Library tab
-                                NavigationBarItem(
-                                    icon = { 
-                                        Icon(
-                                            Icons.Filled.Email, 
-                                            contentDescription = "Library",
-                                            modifier = Modifier.size(24.dp)
-                                        ) 
-                                    },
-                                    label = { Text("Library") },
-                                    selected = currentRoute == "library",
-                                    onClick = {
-                                        navController.navigate("library") {
-                                            popUpTo("home")
+                                    )
+                                    
+                                    // Study tab
+                                    NavigationBarItem(
+                                        icon = { 
+                                            Icon(
+                                                Icons.Filled.Star, 
+                                                contentDescription = "Study",
+                                                modifier = Modifier.size(24.dp)
+                                            ) 
+                                        },
+                                        label = { Text("Study") },
+                                        selected = currentRoute == "study",
+                                        onClick = {
+                                            navController.navigate("study") {
+                                                popUpTo("home")
+                                            }
                                         }
-                                    }
-                                )
-                                
-                                // Profile tab
-                                NavigationBarItem(
-                                    icon = { 
-                                        Icon(
-                                            Icons.Filled.Person, 
-                                            contentDescription = "Profile",
-                                            modifier = Modifier.size(24.dp)
-                                        ) 
-                                    },
-                                    label = { Text("Profile") },
-                                    selected = currentRoute == "profile",
-                                    onClick = {
-                                        navController.navigate("profile") {
-                                            popUpTo("home")
+                                    )
+                                    
+                                    // Center tab
+                                    NavigationBarItem(
+                                        icon = { 
+                                            Icon(
+                                                Icons.Filled.Add, 
+                                                contentDescription = "Upload",
+                                                modifier = Modifier.size(24.dp)
+                                            )
+                                        },
+                                        label = { Text("Upload") },
+                                        selected = false,
+                                        onClick = { /* TODO: Handle upload */ }
+                                    )
+                                    
+                                    // Library tab
+                                    NavigationBarItem(
+                                        icon = { 
+                                            Icon(
+                                                Icons.Filled.Email, 
+                                                contentDescription = "Library",
+                                                modifier = Modifier.size(24.dp)
+                                            ) 
+                                        },
+                                        label = { Text("Library") },
+                                        selected = currentRoute == "library",
+                                        onClick = {
+                                            navController.navigate("library") {
+                                                popUpTo("home")
+                                            }
                                         }
-                                    }
-                                )
+                                    )
+                                    
+                                    // Profile tab
+                                    NavigationBarItem(
+                                        icon = { 
+                                            Icon(
+                                                Icons.Filled.Person, 
+                                                contentDescription = "Profile",
+                                                modifier = Modifier.size(24.dp)
+                                            ) 
+                                        },
+                                        label = { Text("Profile") },
+                                        selected = currentRoute == "profile",
+                                        onClick = {
+                                            navController.navigate("profile") {
+                                                popUpTo("home")
+                                            }
+                                        }
+                                    )
+                                }
                             }
                         }
                     }
@@ -201,75 +200,81 @@ class MainActivity : ComponentActivity() {
                         modifier = Modifier.fillMaxSize(),
                         color = MaterialTheme.colorScheme.surface
                     ) {
-                        AppNavigation(
+                        NavHost(
                             navController = navController,
+                            startDestination = "auth",
                             modifier = Modifier.padding(paddingValues)
-                        )
+                        ) {
+                            composable("auth") {
+                                SignInScreen(
+                                    onSignIn = {
+                                        // Navigate to home screen after successful sign in
+                                        navController.navigate("home") {
+                                            popUpTo("auth") { inclusive = true }
+                                        }
+                                    },
+                                    onOfflineMode = {
+                                        // Navigate to home screen in offline mode
+                                        navController.navigate("home") {
+                                            popUpTo("auth") { inclusive = true }
+                                        }
+                                    }
+                                )
+                            }
+                            
+                            composable("home") {
+                                HomeScreen()
+                            }
+                            composable("study") {
+                                StudyScreen(
+                                    onStartQuiz = { quiz ->
+                                        navController.navigate("quiz/${quiz.id}")
+                                    }
+                                )
+                            }
+                            composable("library") {
+                                LibraryScreen(
+                                    onDocumentClick = { document ->
+                                        navController.navigate("document_detail")
+                                    },
+                                    onFolderClick = { folder ->
+                                        // TODO: Navigate to folder contents
+                                    }
+                                )
+                            }
+                            composable("profile") {
+                                ProfileScreen()
+                            }
+                            composable("document_detail") {
+                                DocumentDetailScreen(
+                                    document = Document(
+                                        id = "1",
+                                        title = "Sample Document",
+                                        content = "Sample content",
+                                        summary = "Sample summary"
+                                    ),
+                                    onGenerateQuiz = { /* TODO */ },
+                                    onGenerateFlashcards = { /* TODO */ },
+                                    currentRoute = navController.currentBackStackEntry?.destination?.route ?: "home",
+                                    onNavigate = { route -> navController.navigate(route) }
+                                )
+                            }
+                            composable("quiz/{quizId}") { backStackEntry ->
+                                val quizId = backStackEntry.arguments?.getString("quizId")
+                                val quizViewModel: StudyViewModel = hiltViewModel()
+                                val quiz by quizViewModel.loadQuiz(quizId ?: "").collectAsStateWithLifecycle()
+
+                                quiz?.let { currentQuiz ->
+                                    QuizScreen(
+                                        quiz = currentQuiz,
+                                        onQuizComplete = { /* TODO: Handle quiz completion */ },
+                                        onExit = { navController.popBackStack() }
+                                    )
+                                }
+                            }
+                        }
                     }
                 }
-            }
-        }
-    }
-}
-
-@Composable
-fun AppNavigation(
-    navController: NavHostController,
-    modifier: Modifier = Modifier
-) {
-    NavHost(
-        navController = navController,
-        startDestination = "home",
-        modifier = modifier
-    ) {
-        composable("home") {
-            HomeScreen()
-        }
-        composable("study") {
-            StudyScreen(
-                onStartQuiz = { quiz ->
-                    navController.navigate("quiz/${quiz.id}")
-                }
-            )
-        }
-        composable("library") {
-            LibraryScreen(
-                onDocumentClick = { document ->
-                    navController.navigate("document_detail")
-                },
-                onFolderClick = { folder ->
-                    // TODO: Navigate to folder contents
-                }
-            )
-        }
-        composable("profile") {
-            ProfileScreen()
-        }
-        composable("document_detail") {
-            DocumentDetailScreen(
-                document = Document(
-                    id = "1",
-                    title = "Sample Document",
-                    content = "Sample content",
-                    summary = "Sample summary"
-                ),
-                onGenerateQuiz = { /* TODO */ },
-                onGenerateFlashcards = { /* TODO */ },
-                currentRoute = navController.currentBackStackEntry?.destination?.route ?: "home",
-                onNavigate = { route -> navController.navigate(route) }
-            )
-        }
-        composable("quiz/{quizId}") { backStackEntry ->
-            val quizId = backStackEntry.arguments?.getString("quizId")
-            val quizViewModel: StudyViewModel = hiltViewModel()
-            val quiz by quizViewModel.loadQuiz(quizId ?: "").collectAsStateWithLifecycle()
-
-            quiz?.let { currentQuiz ->
-                QuizScreen(
-                    quiz = currentQuiz,
-                    onQuizComplete = { /* TODO: Handle quiz completion */ },
-                    onExit = { navController.popBackStack() }
-                )
             }
         }
     }
