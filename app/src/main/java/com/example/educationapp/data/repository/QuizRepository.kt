@@ -15,8 +15,8 @@ import javax.inject.Inject
 class QuizRepository @Inject constructor(
     private val quizDao: QuizDao
 ) {
-    // Sample math quiz for demo purposes only
-    private val sampleQuestions = listOf(
+    // Sample quizzes for demo purposes only
+    private val sampleMathQuestions = listOf(
         QuizQuestion(
             id = "1",
             question = "What is 2 + 2?",
@@ -49,22 +49,85 @@ class QuizRepository @Inject constructor(
         )
     )
 
-    private val sampleQuiz = Quiz(
+    private val sampleDrivingQuestions = listOf(
+        QuizQuestion(
+            id = "d1",
+            question = "What is the national speed limit on single carriageway roads for cars and motorcycles?",
+            options = listOf("50 mph", "60 mph", "70 mph", "80 mph"),
+            correctAnswer = "60 mph"
+        ),
+        QuizQuestion(
+            id = "d2",
+            question = "When should you use your horn?",
+            options = listOf(
+                "To greet other drivers",
+                "To alert others of your presence",
+                "To express frustration",
+                "To signal pedestrians"
+            ),
+            correctAnswer = "To alert others of your presence"
+        ),
+        QuizQuestion(
+            id = "d3",
+            question = "What does a red traffic light mean?",
+            options = listOf(
+                "Stop and wait behind the stop line",
+                "Proceed with caution",
+                "Stop only if there are pedestrians",
+                "Slow down and prepare to stop"
+            ),
+            correctAnswer = "Stop and wait behind the stop line"
+        ),
+        QuizQuestion(
+            id = "d4",
+            question = "What should you do if you see a pedestrian with a white cane?",
+            options = listOf(
+                "Honk to alert them",
+                "Speed up to pass them quickly",
+                "Slow down and be prepared to stop",
+                "Ignore and continue driving"
+            ),
+            correctAnswer = "Slow down and be prepared to stop"
+        ),
+        QuizQuestion(
+            id = "d5",
+            question = "What is the minimum tread depth for car tyres?",
+            options = listOf("1.0 mm", "1.6 mm", "2.0 mm", "2.5 mm"),
+            correctAnswer = "1.6 mm"
+        )
+    )
+
+    private val sampleMathQuiz = Quiz(
         id = "sample_math",
         title = "Sample Math Quiz",
         subject = "Mathematics",
         grade = "8th",
-        questionCount = sampleQuestions.size,
+        questionCount = sampleMathQuestions.size,
         concepts = listOf("Basic Arithmetic"),
         description = "Test your basic math skills!",
-        questions = sampleQuestions
+        questions = sampleMathQuestions
     )
 
-    // Temporarily return sample data instead of database data
-    fun getAllQuizzes(): Flow<List<Quiz>> = flowOf(listOf(sampleQuiz))
+    private val sampleDrivingQuiz = Quiz(
+        id = "sample_driving",
+        title = "UK Driving Theory",
+        subject = "Driving",
+        grade = "Theory Test",
+        questionCount = sampleDrivingQuestions.size,
+        concepts = listOf("Road Safety", "Traffic Rules"),
+        description = "Practice questions for the UK driving theory test",
+        questions = sampleDrivingQuestions
+    )
+
+    // Return both sample quizzes
+    fun getAllQuizzes(): Flow<List<Quiz>> = flowOf(listOf(sampleMathQuiz, sampleDrivingQuiz))
 
     fun getQuiz(quizId: String): Flow<Quiz?> = flowOf(
-        if (quizId == "sample_math") sampleQuiz else null
+        when (quizId) {
+            "sample_math" -> sampleMathQuiz
+            "sample_driving" -> sampleDrivingQuiz
+            else -> null
+        }
     )
 
     // Keep these for when you implement actual database storage
