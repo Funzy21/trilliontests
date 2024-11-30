@@ -15,16 +15,19 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.educationapp.model.Quiz
 import com.example.educationapp.model.QuizQuestion
 import com.example.educationapp.model.QuizResult
+import com.example.educationapp.ui.study.StudyViewModel
 import kotlinx.coroutines.delay
 
 @Composable
 fun QuizScreen(
     quiz: Quiz,
     onQuizComplete: (QuizResult) -> Unit,
-    onExit: () -> Unit
+    onExit: () -> Unit,
+    viewModel: StudyViewModel = hiltViewModel()
 ) {
     var currentQuestionIndex by remember { mutableStateOf(-1) } // -1 for countdown
     var quizResult by remember { mutableStateOf(QuizResult(quiz.questions.size, 0)) }
@@ -57,7 +60,15 @@ fun QuizScreen(
                     quizResult = QuizResult(quiz.questions.size, 0)
                     questionsHistory.clear()
                 },
-                onExit = onExit
+                onExit = {
+                    // Save high score before exiting
+                    viewModel.updateHighScore(
+                        quizId = quiz.id,
+                        score = quizResult.correctAnswers,
+                        totalQuestions = quizResult.totalQuestions
+                    )
+                    onExit()
+                }
             )
         }
     }

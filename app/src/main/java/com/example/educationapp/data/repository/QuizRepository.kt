@@ -3,6 +3,7 @@ package com.example.educationapp.data.repository
 import com.example.educationapp.data.local.dao.QuizDao
 import com.example.educationapp.data.local.entity.QuizEntity
 import com.example.educationapp.data.local.entity.QuizQuestionEntity
+import com.example.educationapp.data.local.entity.QuizHighScoreEntity
 import com.example.educationapp.model.Quiz
 import com.example.educationapp.model.QuizQuestion
 import kotlinx.coroutines.flow.Flow
@@ -50,7 +51,7 @@ class QuizRepository @Inject constructor(
 
     private val sampleQuiz = Quiz(
         id = "sample_math",
-        title = "Math Quiz",
+        title = "Sample Math Quiz",
         subject = "Mathematics",
         grade = "8th",
         questionCount = sampleQuestions.size,
@@ -71,6 +72,19 @@ class QuizRepository @Inject constructor(
         quizDao.insertQuizWithQuestions(
             quiz.toEntity(),
             quiz.questions.map { it.toEntity(quiz.id) }
+        )
+    }
+
+    fun getQuizHighScore(quizId: String): Flow<QuizHighScoreEntity?> = 
+        quizDao.getQuizHighScore(quizId)
+    
+    suspend fun updateHighScore(quizId: String, score: Int, totalQuestions: Int) {
+        quizDao.insertHighScore(
+            QuizHighScoreEntity(
+                quizId = quizId,
+                highScore = score,
+                totalQuestions = totalQuestions
+            )
         )
     }
 }

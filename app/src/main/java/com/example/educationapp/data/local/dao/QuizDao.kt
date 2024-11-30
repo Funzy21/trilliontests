@@ -2,6 +2,7 @@ package com.example.educationapp.data.local.dao
 
 import com.example.educationapp.data.local.entity.QuizEntity
 import com.example.educationapp.data.local.entity.QuizQuestionEntity
+import com.example.educationapp.data.local.entity.QuizHighScoreEntity
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
@@ -31,4 +32,10 @@ interface QuizDao {
         insertQuiz(quiz)
         insertQuestions(questions)
     }
+    
+    @Query("SELECT * FROM quiz_high_scores WHERE quizId = :quizId")
+    fun getQuizHighScore(quizId: String): Flow<QuizHighScoreEntity?>
+    
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertHighScore(highScore: QuizHighScoreEntity)
 } 

@@ -30,6 +30,7 @@ import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -41,6 +42,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -199,68 +201,75 @@ class MainActivity : ComponentActivity() {
                         modifier = Modifier.fillMaxSize(),
                         color = MaterialTheme.colorScheme.surface
                     ) {
-                        NavHost(
+                        AppNavigation(
                             navController = navController,
-                            startDestination = "home",
                             modifier = Modifier.padding(paddingValues)
-                        ) {
-                            composable("home") {
-                                HomeScreen()
-                            }
-                            composable("study") {
-                                StudyScreen(
-                                    onStartQuiz = { quiz ->
-                                        navController.navigate("quiz/${quiz.id}")
-                                    }
-                                )
-                            }
-                            composable("library") {
-                                LibraryScreen(
-                                    onDocumentClick = { document ->
-                                        navController.navigate("document_detail")
-                                    },
-                                    onFolderClick = { folder ->
-                                        // TODO: Navigate to folder contents
-                                    }
-                                )
-                            }
-                            composable("profile") {
-                                ProfileScreen()
-                            }
-                            composable("document_detail") {
-                                DocumentDetailScreen(
-                                    document = Document(
-                                        id = "1",
-                                        title = "Sample Document",
-                                        content = "Sample content",
-                                        summary = "Sample summary"
-                                    ),
-                                    onGenerateQuiz = { /* TODO */ },
-                                    onGenerateFlashcards = { /* TODO */ },
-                                    currentRoute = navController.currentBackStackEntry?.destination?.route ?: "home",
-                                    onNavigate = { route -> navController.navigate(route) }
-                                )
-                            }
-                            composable("quiz/{quizId}") { backStackEntry ->
-                                val quizId = backStackEntry.arguments?.getString("quizId")
-                                val quizViewModel: StudyViewModel = hiltViewModel()
-                                val quiz by quizViewModel.loadQuiz(quizId ?: "").collectAsStateWithLifecycle()
-
-                                quiz?.let { currentQuiz ->
-                                    QuizScreen(
-                                        quiz = currentQuiz,
-                                        onQuizComplete = { result ->
-                                            // Handle quiz completion
-                                        },
-                                        onExit = {
-                                            navController.navigateUp()
-                                        }
-                                    )
-                                }
-                            }
-                        }
+                        )
                     }
                 }
+            }
+        }
+    }
+}
+
+@Composable
+fun AppNavigation(
+    navController: NavHostController,
+    modifier: Modifier = Modifier
+) {
+    NavHost(
+        navController = navController,
+        startDestination = "home",
+        modifier = modifier
+    ) {
+        composable("home") {
+            HomeScreen()
+        }
+        composable("study") {
+            StudyScreen(
+                onStartQuiz = { quiz ->
+                    navController.navigate("quiz/${quiz.id}")
+                }
+            )
+        }
+        composable("library") {
+            LibraryScreen(
+                onDocumentClick = { document ->
+                    navController.navigate("document_detail")
+                },
+                onFolderClick = { folder ->
+                    // TODO: Navigate to folder contents
+                }
+            )
+        }
+        composable("profile") {
+            ProfileScreen()
+        }
+        composable("document_detail") {
+            DocumentDetailScreen(
+                document = Document(
+                    id = "1",
+                    title = "Sample Document",
+                    content = "Sample content",
+                    summary = "Sample summary"
+                ),
+                onGenerateQuiz = { /* TODO */ },
+                onGenerateFlashcards = { /* TODO */ },
+                currentRoute = navController.currentBackStackEntry?.destination?.route ?: "home",
+                onNavigate = { route -> navController.navigate(route) }
+            )
+        }
+        composable("quiz/{quizId}") { backStackEntry ->
+            val quizId = backStackEntry.arguments?.getString("quizId")
+            val quizViewModel: StudyViewModel = hiltViewModel()
+            val quiz by quizViewModel.loadQuiz(quizId ?: "").collectAsStateWithLifecycle()
+
+            quiz?.let { currentQuiz ->
+                QuizScreen(
+                    quiz = currentQuiz,
+                    onQuizComplete = { /* TODO: Handle quiz completion */ },
+                    onExit = { navController.popBackStack() }
+                )
             }
         }
     }

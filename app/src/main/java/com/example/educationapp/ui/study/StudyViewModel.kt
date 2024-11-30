@@ -8,7 +8,9 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 
 @HiltViewModel
 class StudyViewModel @Inject constructor(
@@ -27,4 +29,19 @@ class StudyViewModel @Inject constructor(
             started = SharingStarted.WhileSubscribed(5000),
             initialValue = null
         )
+        
+    fun getQuizHighScore(quizId: String): StateFlow<Int?> = 
+        quizRepository.getQuizHighScore(quizId)
+            .map { it?.highScore }
+            .stateIn(
+                scope = viewModelScope,
+                started = SharingStarted.WhileSubscribed(5000),
+                initialValue = null
+            )
+            
+    fun updateHighScore(quizId: String, score: Int, totalQuestions: Int) {
+        viewModelScope.launch {
+            quizRepository.updateHighScore(quizId, score, totalQuestions)
+        }
+    }
 } 

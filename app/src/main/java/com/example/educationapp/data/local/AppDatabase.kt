@@ -9,10 +9,17 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.example.educationapp.data.local.dao.QuizDao
+import com.example.educationapp.data.local.entity.QuizHighScoreEntity
+import androidx.room.migration.Migration
+import androidx.sqlite.db.SupportSQLiteDatabase
 
 @Database(
-    entities = [QuizEntity::class, QuizQuestionEntity::class],
-    version = 1
+    entities = [
+        QuizEntity::class, 
+        QuizQuestionEntity::class,
+        QuizHighScoreEntity::class
+    ],
+    version = 2
 )
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
@@ -28,7 +35,9 @@ abstract class AppDatabase : RoomDatabase() {
                     context.applicationContext,
                     AppDatabase::class.java,
                     "education_app_database"
-                ).build()
+                )
+                .fallbackToDestructiveMigration()
+                .build()
                 INSTANCE = instance
                 instance
             }
