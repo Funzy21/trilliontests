@@ -19,6 +19,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "EducationApp"
+rootProject.name = "QuizAI"
 include(":app")
  

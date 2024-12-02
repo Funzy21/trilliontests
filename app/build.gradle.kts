@@ -6,11 +6,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.educationapp"
+    namespace = "com.example.quizai"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.example.educationapp"
+        applicationId = "com.example.quizai"
         minSdk = 27
         targetSdk = 35
         versionCode = 1
