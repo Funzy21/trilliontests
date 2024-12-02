@@ -1,7 +1,7 @@
-package com.example.educationapp
+package com.example.quizai
 
 import android.app.Application
 import dagger.hilt.android.HiltAndroidApp
 
 @HiltAndroidApp
-class EducationApp : Application()
+class QuizAIApp : Application()

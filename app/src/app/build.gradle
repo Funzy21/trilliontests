@@ -1,6 +1,44 @@
+plugins {
+    id("com.android.application")
+    id("org.jetbrains.kotlin.android")
+    id("com.google.dagger.hilt.android")
+    id("com.google.devtools.ksp")
+    id("com.google.gms.google-services")
+}
+
 android {
+    namespace = "com.example.quizai"
+    compileSdk = 34
+
     defaultConfig {
-        applicationId "com.example.quizai"
-        // ...
+        applicationId = "com.example.quizai"
+        minSdk = 24
+        targetSdk = 34
+        versionCode = 1
+        versionName = "1.0"
+
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        vectorDrawables {
+            useSupportLibrary = true
+        }
     }
+
+    // ... rest of android config ...
+}
+
+dependencies {
+    // Existing dependencies...
+
+    // Import the Firebase BoM
+    implementation(platform("com.google.firebase:firebase-bom:33.6.0"))
+
+    // Firebase Analytics
+    implementation("com.google.firebase:firebase-analytics")
+
+    // Additional commonly used Firebase products
+    implementation("com.google.firebase:firebase-auth")
+    implementation("com.google.firebase:firebase-firestore")
+    implementation("com.google.firebase:firebase-storage")
+
+    // ... rest of dependencies ...
 } 
