@@ -11,7 +11,9 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class QuizRepository @Inject constructor(
     private val quizDao: QuizDao
 ) {
@@ -120,15 +122,27 @@ class QuizRepository @Inject constructor(
     )
 
     // Return both sample quizzes
-    fun getAllQuizzes(): Flow<List<Quiz>> = flowOf(listOf(sampleMathQuiz, sampleDrivingQuiz))
+    fun getAllQuizzes(): Flow<List<Quiz>> {
+        return flowOf(listOf(sampleMathQuiz, sampleDrivingQuiz))
+        // When ready to switch to database, use this instead:
+        // return quizDao.getAllQuizzes().map { entities ->
+        //     entities.map { it.toDomain() }
+        // }
+    }
 
-    fun getQuiz(quizId: String): Flow<Quiz?> = flowOf(
-        when (quizId) {
-            "sample_math" -> sampleMathQuiz
-            "sample_driving" -> sampleDrivingQuiz
-            else -> null
-        }
-    )
+    fun getQuiz(quizId: String): Flow<Quiz?> {
+        return flowOf(
+            when (quizId) {
+                "sample_math" -> sampleMathQuiz
+                "sample_driving" -> sampleDrivingQuiz
+                else -> null
+            }
+        )
+        // When ready to switch to database, use this instead:
+        // return quizDao.getQuiz(quizId).combine(quizDao.getQuizQuestions(quizId)) { quizEntity, questionEntities ->
+        //     quizEntity?.toDomain(questionEntities.map { it.toDomain() })
+        // }
+    }
 
     // Keep these for when you implement actual database storage
     suspend fun insertQuiz(quiz: Quiz) {
