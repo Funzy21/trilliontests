@@ -200,12 +200,6 @@ class MainActivity : ComponentActivity() {
                                         navController.navigate("home") {
                                             popUpTo("auth") { inclusive = true }
                                         }
-                                    },
-                                    onOfflineMode = {
-                                        // Navigate to home screen in offline mode
-                                        navController.navigate("home") {
-                                            popUpTo("auth") { inclusive = true }
-                                        }
                                     }
                                 )
                             }

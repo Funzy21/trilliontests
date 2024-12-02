@@ -5,13 +5,17 @@ import javax.inject.Singleton
 
 @Singleton
 class UserRepository @Inject constructor() {
-    // TODO: Implement actual user authentication and management
-    suspend fun signIn(email: String, password: String): Boolean {
-        // Implement actual authentication logic
-        return true
+    suspend fun signInWithEmailPassword(email: String, password: String): Boolean {
+        // Will implement Firebase authentication later
+        return false
+    }
+    
+    suspend fun signInWithGoogle(): Boolean {
+        // Will implement Google sign-in later
+        return false
     }
     
     suspend fun signOut() {
-        // Implement sign out logic
+        // Will implement sign out later
     }
 } 
