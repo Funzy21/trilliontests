@@ -1,4 +1,4 @@
-package com.example.quizai.ui
+package com.example.quizai.presentation.ui
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column

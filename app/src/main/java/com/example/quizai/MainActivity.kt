@@ -39,16 +39,16 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.quizai.model.Document
-import com.example.quizai.ui.DocumentDetailScreen
-import com.example.quizai.ui.HomeScreen
-import com.example.quizai.ui.LibraryScreen
-import com.example.quizai.ui.ProfileScreen
-import com.example.quizai.ui.theme.EducationAppTheme
-import com.example.quizai.ui.quiz.QuizScreen
-import com.example.quizai.ui.study.StudyScreen
-import com.example.quizai.ui.study.StudyViewModel
-import com.example.quizai.ui.auth.SignInScreen
-import com.example.quizai.ui.auth.AuthViewModel
+import com.example.quizai.presentation.ui.DocumentDetailScreen
+import com.example.quizai.presentation.ui.HomeScreen
+import com.example.quizai.presentation.ui.LibraryScreen
+import com.example.quizai.presentation.ui.ProfileScreen
+import com.example.quizai.presentation.ui.theme.EducationAppTheme
+import com.example.quizai.presentation.ui.quiz.QuizScreen
+import com.example.quizai.presentation.ui.study.StudyScreen
+import com.example.quizai.presentation.ui.study.StudyViewModel
+import com.example.quizai.presentation.ui.auth.SignInScreen
+import com.example.quizai.presentation.ui.auth.AuthViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @OptIn(ExperimentalMaterial3Api::class)

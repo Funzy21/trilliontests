@@ -1,4 +1,4 @@
-package com.example.quizai.ui.study
+package com.example.quizai.presentation.ui.study
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

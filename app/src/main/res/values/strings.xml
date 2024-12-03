@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">EducationApp</string>
+    <string name = "web_client_id">406271779462-cs3l2s7iqlelkrv6uojohsursriqre5f.apps.googleusercontent.com</string>
 </resources>

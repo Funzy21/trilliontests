@@ -1,4 +1,4 @@
-package com.example.quizai.ui.theme
+package com.example.quizai.presentation.ui.theme
 
 import androidx.compose.ui.graphics.Color
 

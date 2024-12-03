@@ -1,4 +1,4 @@
-package com.example.quizai.ui.theme
+package com.example.quizai.presentation.ui.theme
 
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme

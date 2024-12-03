@@ -1,4 +1,4 @@
-package com.example.quizai.ui.quiz
+package com.example.quizai.presentation.ui.quiz
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -17,7 +17,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.quizai.model.Quiz
 import com.example.quizai.model.QuizQuestion
 import com.example.quizai.model.QuizResult
-import com.example.quizai.ui.study.StudyViewModel
+import com.example.quizai.presentation.ui.study.StudyViewModel
 import kotlinx.coroutines.delay
 
 @Composable

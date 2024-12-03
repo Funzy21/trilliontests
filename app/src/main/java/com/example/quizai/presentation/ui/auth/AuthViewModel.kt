@@ -1,4 +1,4 @@
-package com.example.quizai.ui.auth
+package com.example.quizai.presentation.ui.auth
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

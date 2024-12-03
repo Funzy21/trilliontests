@@ -1,4 +1,4 @@
-package com.example.quizai.ui
+package com.example.quizai.presentation.ui
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
@@ -15,7 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.example.quizai.model.Document
-import com.example.quizai.ui.components.LoginStreakCard
+import com.example.quizai.presentation.ui.components.LoginStreakCard
 import java.time.LocalDate
 
 // Placeholder data classes
