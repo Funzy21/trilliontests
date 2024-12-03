@@ -86,7 +86,7 @@ class MainActivity : ComponentActivity() {
                                         .height(1.dp)
                                         .background(Color.Black.copy(alpha = 0.2f))
                                 )
-                                
+
                                 NavigationBar(
                                     modifier = Modifier
                                         .fillMaxWidth()
@@ -96,12 +96,12 @@ class MainActivity : ComponentActivity() {
                                 ) {
                                     // Home tab
                                     NavigationBarItem(
-                                        icon = { 
+                                        icon = {
                                             Icon(
-                                                Icons.Filled.Home, 
+                                                Icons.Filled.Home,
                                                 contentDescription = "Home",
                                                 modifier = Modifier.size(24.dp)
-                                            ) 
+                                            )
                                         },
                                         label = { Text("Home") },
                                         selected = currentRoute == "home",
@@ -111,15 +111,15 @@ class MainActivity : ComponentActivity() {
                                             }
                                         }
                                     )
-                                    
+
                                     // Study tab
                                     NavigationBarItem(
-                                        icon = { 
+                                        icon = {
                                             Icon(
-                                                Icons.Filled.Star, 
+                                                Icons.Filled.Star,
                                                 contentDescription = "Study",
                                                 modifier = Modifier.size(24.dp)
-                                            ) 
+                                            )
                                         },
                                         label = { Text("Study") },
                                         selected = currentRoute == "study",
@@ -129,12 +129,12 @@ class MainActivity : ComponentActivity() {
                                             }
                                         }
                                     )
-                                    
+
                                     // Center tab
                                     NavigationBarItem(
-                                        icon = { 
+                                        icon = {
                                             Icon(
-                                                Icons.Filled.Add, 
+                                                Icons.Filled.Add,
                                                 contentDescription = "Upload",
                                                 modifier = Modifier.size(24.dp)
                                             )
@@ -143,15 +143,15 @@ class MainActivity : ComponentActivity() {
                                         selected = false,
                                         onClick = { /* TODO: Handle upload */ }
                                     )
-                                    
+
                                     // Library tab
                                     NavigationBarItem(
-                                        icon = { 
+                                        icon = {
                                             Icon(
-                                                Icons.Filled.Email, 
+                                                Icons.Filled.Email,
                                                 contentDescription = "Library",
                                                 modifier = Modifier.size(24.dp)
-                                            ) 
+                                            )
                                         },
                                         label = { Text("Library") },
                                         selected = currentRoute == "library",
@@ -161,15 +161,15 @@ class MainActivity : ComponentActivity() {
                                             }
                                         }
                                     )
-                                    
+
                                     // Profile tab
                                     NavigationBarItem(
-                                        icon = { 
+                                        icon = {
                                             Icon(
-                                                Icons.Filled.Person, 
+                                                Icons.Filled.Person,
                                                 contentDescription = "Profile",
                                                 modifier = Modifier.size(24.dp)
-                                            ) 
+                                            )
                                         },
                                         label = { Text("Profile") },
                                         selected = currentRoute == "profile",
@@ -203,7 +203,7 @@ class MainActivity : ComponentActivity() {
                                     }
                                 )
                             }
-                            
+
                             composable("home") {
                                 HomeScreen()
                             }

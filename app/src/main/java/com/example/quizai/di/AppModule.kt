@@ -1,10 +1,15 @@
 package com.example.quizai.di
 
 import android.content.Context
+import android.util.Log
 import com.example.quizai.data.local.AppDatabase
 import com.example.quizai.data.local.dao.QuizDao
 import com.example.quizai.data.repository.QuizRepository
 import com.example.quizai.data.repository.UserRepository
+import com.google.firebase.FirebaseApp
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -35,7 +40,21 @@ object AppModule {
     
     @Provides
     @Singleton
-    fun provideUserRepository(): UserRepository {
-        return UserRepository()
+    fun provideFirebaseAuth(@ApplicationContext context: Context): FirebaseAuth {
+        try {
+            if (FirebaseApp.getApps(context).isEmpty()) {
+                FirebaseApp.initializeApp(context)
+            }
+            return Firebase.auth
+        } catch (e: Exception) {
+            Log.e("AppModule", "Error providing FirebaseAuth", e)
+            throw e
+        }
+    }
+    
+    @Provides
+    @Singleton
+    fun provideUserRepository(firebaseAuth: FirebaseAuth): UserRepository {
+        return UserRepository(firebaseAuth)
     }
 } 
