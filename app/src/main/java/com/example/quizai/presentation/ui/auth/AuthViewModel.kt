@@ -1,9 +1,18 @@
 package com.example.quizai.presentation.ui.auth
 
+import android.app.Activity
+import android.content.Context
+import android.content.Intent
+import androidx.activity.compose.ManagedActivityResultLauncher
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.IntentSenderRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.quizai.data.repository.UserRepository
+import com.example.quizai.utils.GoogleSignInUtils
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -18,7 +27,7 @@ class AuthViewModel @Inject constructor(
 
     private val _isAuthenticated = MutableStateFlow(false)
     val isAuthenticated: StateFlow<Boolean> = _isAuthenticated
-    
+
     fun signInWithEmailPassword(email: String, password: String) {
         viewModelScope.launch {
             _authState.value = AuthState.Loading
@@ -31,7 +40,7 @@ class AuthViewModel @Inject constructor(
             }
         }
     }
-    
+
     fun signInWithGoogle() {
         viewModelScope.launch {
             _authState.value = AuthState.Loading
@@ -43,13 +52,33 @@ class AuthViewModel @Inject constructor(
             }
         }
     }
-    
+
     fun signOut() {
         viewModelScope.launch {
             userRepository.signOut()
             _isAuthenticated.value = false
             _authState.value = AuthState.Idle
         }
+    }
+
+    fun handleGoogleSignIn(
+        context: Context,
+        scope: CoroutineScope,
+        launcher: ManagedActivityResultLauncher<Intent, ActivityResult>?,
+        onSignInSuccess: () -> Unit
+    ) {
+        GoogleSignInUtils.doGoogleSignIn(
+            context = context,
+            scope = scope,
+            launcher = launcher,
+            login = {
+                viewModelScope.launch {
+                    _isAuthenticated.value = true
+                    _authState.value = AuthState.Success
+                    onSignInSuccess()
+                }
+            }
+        )
     }
 }
 
