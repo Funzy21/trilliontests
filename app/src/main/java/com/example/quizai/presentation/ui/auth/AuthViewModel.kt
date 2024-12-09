@@ -41,6 +41,9 @@ class AuthViewModel @Inject constructor(
         }
     }
 
+    /*
+    SHELVING THIS METHOD FOR NOW
+
     fun signInWithGoogle() {
         viewModelScope.launch {
             _authState.value = AuthState.Loading
@@ -53,6 +56,9 @@ class AuthViewModel @Inject constructor(
         }
     }
 
+     */
+
+    // TODO: Implement sign out behavior
     fun signOut() {
         viewModelScope.launch {
             userRepository.signOut()
