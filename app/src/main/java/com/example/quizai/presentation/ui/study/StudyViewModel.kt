@@ -11,6 +11,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.MutableStateFlow
 
 @HiltViewModel
 class StudyViewModel @Inject constructor(
@@ -43,5 +44,27 @@ class StudyViewModel @Inject constructor(
         viewModelScope.launch {
             quizRepository.updateHighScore(quizId, score, totalQuestions)
         }
+    }
+    
+    private val _flashcards = MutableStateFlow<List<Flashcard>>(emptyList())
+    val flashcards: StateFlow<List<Flashcard>> = _flashcards
+    
+    init {
+        // Load sample flashcards
+        _flashcards.value = listOf(
+            Flashcard(
+                id = "1",
+                front = "Obvio",
+                back = "Obvious",
+                pronunciation = "ob.vi.o"
+            ),
+            Flashcard(
+                id = "2",
+                front = "Gracias",
+                back = "Thank you",
+                pronunciation = "gra.sias"
+            ),
+            // Add more sample flashcards
+        )
     }
 } 

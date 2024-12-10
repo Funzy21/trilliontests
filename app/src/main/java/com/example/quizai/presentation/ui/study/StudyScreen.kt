@@ -4,33 +4,77 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.quizai.model.Quiz
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun StudyScreen(
     viewModel: StudyViewModel = hiltViewModel(),
-    onStartQuiz: (Quiz) -> Unit
+    onStartQuiz: (Quiz) -> Unit = {}
 ) {
-    val quizzes by viewModel.quizzes.collectAsStateWithLifecycle()
+    var selectedTab by remember { mutableStateOf(0) }
+    val tabs = listOf("Quizzes", "Flashcards")
     
-    StudyScreenContent(
-        quizzes = quizzes,
-        onStartQuiz = onStartQuiz
-    )
+    Column(modifier = Modifier.fillMaxSize()) {
+        // Tabs
+        TabRow(
+            selectedTabIndex = selectedTab,
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            tabs.forEachIndexed { index, title ->
+                Tab(
+                    selected = selectedTab == index,
+                    onClick = { selectedTab = index },
+                    text = { Text(title) }
+                )
+            }
+        }
+        
+        // Content
+        when (selectedTab) {
+            0 -> QuizList(
+                onStartQuiz = onStartQuiz,
+                viewModel = viewModel
+            )
+            1 -> FlashcardScreen(
+                flashcards = listOf(
+                    Flashcard(
+                        id = "1",
+                        front = "Obvio",
+                        back = "Obvious",
+                        pronunciation = "ob.vi.o"
+                    ),
+                    Flashcard(
+                        id = "2",
+                        front = "Gracias",
+                        back = "Thank you",
+                        pronunciation = "gra.sias"
+                    ),
+                    Flashcard(
+                        id = "3",
+                        front = "Hola",
+                        back = "Hello",
+                        pronunciation = "o.la"
+                    )
+                )
+            )
+        }
+    }
 }
 
 @Composable
-private fun StudyScreenContent(
-    quizzes: List<Quiz>,
-    onStartQuiz: (Quiz) -> Unit
+private fun QuizList(
+    onStartQuiz: (Quiz) -> Unit,
+    viewModel: StudyViewModel
 ) {
+    val quizzes by viewModel.quizzes.collectAsStateWithLifecycle()
+    
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
@@ -40,7 +84,8 @@ private fun StudyScreenContent(
         items(quizzes) { quiz ->
             QuizCard(
                 quiz = quiz,
-                onStartQuiz = onStartQuiz
+                onStartQuiz = onStartQuiz,
+                viewModel = viewModel
             )
         }
     }
@@ -51,7 +96,7 @@ private fun StudyScreenContent(
 private fun QuizCard(
     quiz: Quiz,
     onStartQuiz: (Quiz) -> Unit,
-    viewModel: StudyViewModel = hiltViewModel()
+    viewModel: StudyViewModel
 ) {
     val highScore by viewModel.getQuizHighScore(quiz.id).collectAsStateWithLifecycle()
 
