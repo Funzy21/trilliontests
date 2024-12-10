@@ -113,4 +113,7 @@ dependencies {
 
     // Coil
     implementation("io.coil-kt:coil-compose:2.4.0")
+
+    // For flash card animations 
+    implementation("androidx.compose.foundation:foundation:1.5.4")
 }
