@@ -26,7 +26,6 @@ data class Question(
 
 data class Flashcard(
     val id: String,
-    val documentId: String,
     val front: String,
     val back: String
 ) 

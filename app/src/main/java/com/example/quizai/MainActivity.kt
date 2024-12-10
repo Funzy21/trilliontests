@@ -49,6 +49,7 @@ import com.example.quizai.presentation.ui.study.StudyScreen
 import com.example.quizai.presentation.ui.study.StudyViewModel
 import com.example.quizai.presentation.ui.auth.SignInScreen
 import com.example.quizai.presentation.ui.auth.AuthViewModel
+import com.example.quizai.presentation.ui.study.FlashcardScreen
 import dagger.hilt.android.AndroidEntryPoint
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -211,6 +212,9 @@ class MainActivity : ComponentActivity() {
                                 StudyScreen(
                                     onStartQuiz = { quiz ->
                                         navController.navigate("quiz/${quiz.id}")
+                                    },
+                                    onStartFlashcards = { set ->
+                                        navController.navigate("flashcards/${set.id}")
                                     }
                                 )
                             }
@@ -257,6 +261,18 @@ class MainActivity : ComponentActivity() {
                                         quiz = currentQuiz,
                                         onQuizComplete = { /* TODO: Handle quiz completion */ },
                                         onExit = { navController.popBackStack() }
+                                    )
+                                }
+                            }
+                            composable("flashcards/{setId}") { backStackEntry ->
+                                val setId = backStackEntry.arguments?.getString("setId")
+                                val viewModel: StudyViewModel = hiltViewModel()
+                                val flashcardSet by viewModel.getFlashcardSet(setId ?: "").collectAsStateWithLifecycle()
+                                
+                                flashcardSet?.let { set ->
+                                    FlashcardScreen(
+                                        flashcards = set.cards,
+                                        onBack = { navController.popBackStack() }
                                     )
                                 }
                             }

@@ -3,7 +3,9 @@ package com.example.quizai.presentation.ui.study
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.quizai.data.repository.QuizRepository
+import com.example.quizai.data.repository.FlashcardRepository
 import com.example.quizai.model.Quiz
+import com.example.quizai.model.FlashcardSet
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.flow.SharingStarted
@@ -15,7 +17,8 @@ import kotlinx.coroutines.flow.MutableStateFlow
 
 @HiltViewModel
 class StudyViewModel @Inject constructor(
-    private val quizRepository: QuizRepository
+    private val quizRepository: QuizRepository,
+    private val flashcardRepository: FlashcardRepository
 ) : ViewModel() {
     val quizzes: StateFlow<List<Quiz>> = quizRepository.getAllQuizzes()
         .stateIn(
@@ -46,25 +49,19 @@ class StudyViewModel @Inject constructor(
         }
     }
     
-    private val _flashcards = MutableStateFlow<List<Flashcard>>(emptyList())
-    val flashcards: StateFlow<List<Flashcard>> = _flashcards
-    
-    init {
-        // Load sample flashcards
-        _flashcards.value = listOf(
-            Flashcard(
-                id = "1",
-                front = "Obvio",
-                back = "Obvious",
-                pronunciation = "ob.vi.o"
-            ),
-            Flashcard(
-                id = "2",
-                front = "Gracias",
-                back = "Thank you",
-                pronunciation = "gra.sias"
-            ),
-            // Add more sample flashcards
+    val flashcardSets: StateFlow<List<FlashcardSet>> = flashcardRepository
+        .getFlashcardSets()
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5000),
+            initialValue = emptyList()
         )
-    }
+
+    fun getFlashcardSet(setId: String): StateFlow<FlashcardSet?> = 
+        flashcardRepository.getFlashcardSet(setId)
+            .stateIn(
+                scope = viewModelScope,
+                started = SharingStarted.WhileSubscribed(5000),
+                initialValue = null
+            )
 } 

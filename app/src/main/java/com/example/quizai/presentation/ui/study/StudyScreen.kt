@@ -11,18 +11,19 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.quizai.model.Quiz
+import com.example.quizai.model.FlashcardSet
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun StudyScreen(
     viewModel: StudyViewModel = hiltViewModel(),
-    onStartQuiz: (Quiz) -> Unit = {}
+    onStartQuiz: (Quiz) -> Unit = {},
+    onStartFlashcards: (FlashcardSet) -> Unit = {}
 ) {
     var selectedTab by remember { mutableStateOf(0) }
     val tabs = listOf("Quizzes", "Flashcards")
     
     Column(modifier = Modifier.fillMaxSize()) {
-        // Tabs
         TabRow(
             selectedTabIndex = selectedTab,
             modifier = Modifier.fillMaxWidth()
@@ -36,40 +37,14 @@ fun StudyScreen(
             }
         }
         
-        // Content
         when (selectedTab) {
             0 -> QuizList(
                 onStartQuiz = onStartQuiz,
                 viewModel = viewModel
             )
-            1 -> FlashcardScreen(
-                flashcards = listOf(
-                    Flashcard(
-                        id = "1",
-                        front = "Ephemeral",
-                        back = "Lasting for a very short time; short-lived or temporary"
-                    ),
-                    Flashcard(
-                        id = "2",
-                        front = "Ubiquitous",
-                        back = "Present, appearing, or found everywhere"
-                    ),
-                    Flashcard(
-                        id = "3",
-                        front = "Surreptitious",
-                        back = "Kept secret, especially because it would not be approved of; secretive or stealthy"
-                    ),
-                    Flashcard(
-                        id = "4",
-                        front = "Perfunctory",
-                        back = "Carried out with minimal effort or reflection; done merely as a duty"
-                    ),
-                    Flashcard(
-                        id = "5",
-                        front = "Mellifluous",
-                        back = "Sweet or musical; pleasant to hear"
-                    )
-                )
+            1 -> FlashcardSetList(
+                onStartFlashcards = onStartFlashcards,
+                viewModel = viewModel
             )
         }
     }
@@ -93,6 +68,28 @@ private fun QuizList(
                 quiz = quiz,
                 onStartQuiz = onStartQuiz,
                 viewModel = viewModel
+            )
+        }
+    }
+}
+
+@Composable
+private fun FlashcardSetList(
+    onStartFlashcards: (FlashcardSet) -> Unit,
+    viewModel: StudyViewModel
+) {
+    val flashcardSets by viewModel.flashcardSets.collectAsStateWithLifecycle()
+    
+    LazyColumn(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp),
+        verticalArrangement = Arrangement.spacedBy(8.dp)
+    ) {
+        items(flashcardSets) { set ->
+            FlashcardSetCard(
+                flashcardSet = set,
+                onStartFlashcards = onStartFlashcards
             )
         }
     }
@@ -149,6 +146,39 @@ private fun QuizCard(
                     style = MaterialTheme.typography.titleMedium
                 )
             }
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun FlashcardSetCard(
+    flashcardSet: FlashcardSet,
+    onStartFlashcards: (FlashcardSet) -> Unit
+) {
+    Card(
+        onClick = { onStartFlashcards(flashcardSet) },
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        Column(
+            modifier = Modifier
+                .padding(16.dp)
+                .fillMaxWidth()
+        ) {
+            Text(
+                text = flashcardSet.title,
+                style = MaterialTheme.typography.titleLarge
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+            Text(
+                text = flashcardSet.description,
+                style = MaterialTheme.typography.bodyMedium
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+            Text(
+                text = "${flashcardSet.cardCount} cards",
+                style = MaterialTheme.typography.bodySmall
+            )
         }
     }
 } 

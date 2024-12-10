@@ -19,12 +19,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.example.quizai.model.Flashcard
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun FlashcardScreen(
     flashcards: List<Flashcard>,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onBack: () -> Unit = {}
 ) {
     val pagerState = rememberPagerState(pageCount = { flashcards.size })
     
@@ -153,10 +155,3 @@ fun FlashcardItem(
         }
     }
 }
-
-data class Flashcard(
-    val id: String,
-    val front: String,
-    val back: String,
-    val pronunciation: String? = null
-) 
