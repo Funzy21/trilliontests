@@ -225,7 +225,13 @@ class MainActivity : ComponentActivity() {
                                 )
                             }
                             composable("profile") {
-                                ProfileScreen()
+                                ProfileScreen(
+                                    onSignOut = {
+                                        navController.navigate("auth") {
+                                            popUpTo(0) { inclusive = true }
+                                        }
+                                    }
+                                )
                             }
                             composable("document_detail") {
                                 DocumentDetailScreen(
