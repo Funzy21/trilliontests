@@ -150,7 +150,7 @@ class QuizRepository @Inject constructor(
         )
     }
 
-    fun getQuizHighScore(quizId: String): Flow<QuizHighScoreEntity?> = 
+    fun getQuizHighScore(quizId: String): Flow<QuizHighScoreEntity?> =
         quizDao.getQuizHighScore(quizId)
     
     suspend fun updateHighScore(quizId: String, score: Int, totalQuestions: Int) {

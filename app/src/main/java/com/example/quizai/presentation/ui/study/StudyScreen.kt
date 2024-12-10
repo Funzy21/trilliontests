@@ -46,21 +46,28 @@ fun StudyScreen(
                 flashcards = listOf(
                     Flashcard(
                         id = "1",
-                        front = "Obvio",
-                        back = "Obvious",
-                        pronunciation = "ob.vi.o"
+                        front = "Ephemeral",
+                        back = "Lasting for a very short time; short-lived or temporary"
                     ),
                     Flashcard(
                         id = "2",
-                        front = "Gracias",
-                        back = "Thank you",
-                        pronunciation = "gra.sias"
+                        front = "Ubiquitous",
+                        back = "Present, appearing, or found everywhere"
                     ),
                     Flashcard(
                         id = "3",
-                        front = "Hola",
-                        back = "Hello",
-                        pronunciation = "o.la"
+                        front = "Surreptitious",
+                        back = "Kept secret, especially because it would not be approved of; secretive or stealthy"
+                    ),
+                    Flashcard(
+                        id = "4",
+                        front = "Perfunctory",
+                        back = "Carried out with minimal effort or reflection; done merely as a duty"
+                    ),
+                    Flashcard(
+                        id = "5",
+                        front = "Mellifluous",
+                        back = "Sweet or musical; pleasant to hear"
                     )
                 )
             )
