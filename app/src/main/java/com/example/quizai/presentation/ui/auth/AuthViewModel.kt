@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.quizai.data.repository.UserRepository
 import com.example.quizai.utils.GoogleSignInUtils
+import com.google.firebase.auth.FirebaseUser
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -27,6 +28,15 @@ class AuthViewModel @Inject constructor(
 
     private val _isAuthenticated = MutableStateFlow(false)
     val isAuthenticated: StateFlow<Boolean> = _isAuthenticated
+
+    private val _currentUser = MutableStateFlow<FirebaseUser?>(null)
+    val currentUser: StateFlow<FirebaseUser?> = _currentUser
+
+    init {
+        // Initialize current user
+        _currentUser.value = userRepository.getCurrentUser()
+        _isAuthenticated.value = _currentUser.value != null
+    }
 
     fun signInWithEmailPassword(email: String, password: String) {
         viewModelScope.launch {
@@ -86,6 +96,16 @@ class AuthViewModel @Inject constructor(
             }
         )
     }
+
+    fun getCurrentUserProfile(): UserProfile? {
+        return userRepository.getCurrentUser()?.let { user ->
+            UserProfile(
+                displayName = user.displayName ?: "",
+                email = user.email ?: "",
+                photoUrl = user.photoUrl?.toString()
+            )
+        }
+    }
 }
 
 sealed class AuthState {
@@ -93,4 +113,10 @@ sealed class AuthState {
     object Loading : AuthState()
     object Success : AuthState()
     data class Error(val message: String) : AuthState()
-} 
+}
+
+data class UserProfile(
+    val displayName: String,
+    val email: String,
+    val photoUrl: String?
+) 

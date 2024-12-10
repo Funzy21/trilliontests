@@ -4,6 +4,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.tasks.await
+import com.google.firebase.auth.FirebaseUser
 
 @Singleton
 class UserRepository @Inject constructor(
@@ -25,5 +26,9 @@ class UserRepository @Inject constructor(
     
     suspend fun signOut() {
         firebaseAuth.signOut()
+    }
+
+    fun getCurrentUser(): FirebaseUser? {
+        return firebaseAuth.currentUser
     }
 } 
