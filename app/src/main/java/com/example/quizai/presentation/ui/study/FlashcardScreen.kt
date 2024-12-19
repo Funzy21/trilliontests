@@ -20,6 +20,11 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.example.quizai.model.Flashcard
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.*
+import androidx.compose.runtime.*
+import androidx.compose.ui.graphics.graphicsLayer
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -74,30 +79,42 @@ fun FlashcardItem(
     flashcard: Flashcard,
     modifier: Modifier = Modifier
 ) {
-    var showAnswer by remember { mutableStateOf(false) }
+    var isFlipped by remember { mutableStateOf(false) }
+    val rotation by animateFloatAsState(
+        targetValue = if (isFlipped) 180f else 0f,
+        label = "card_flip"
+    )
     
     Box(
         modifier = modifier.fillMaxWidth(),
         contentAlignment = Alignment.Center
     ) {
-        Column(horizontalAlignment = Alignment.CenterHorizontally) {
-            // Word card
-            Card(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .aspectRatio(1f)
-                    .padding(horizontal = 24.dp),
-                colors = CardDefaults.cardColors(
-                    containerColor = MaterialTheme.colorScheme.primaryContainer
-                )
+        Card(
+            modifier = Modifier
+                .fillMaxWidth()
+                .aspectRatio(1f)
+                .padding(horizontal = 24.dp)
+                .graphicsLayer {
+                    rotationY = rotation
+                    cameraDistance = 12f * density
+                }
+                .clickable { isFlipped = !isFlipped },
+            colors = CardDefaults.cardColors(
+                containerColor = MaterialTheme.colorScheme.primaryContainer
+            )
+        ) {
+            Box(
+                modifier = Modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center
             ) {
-                Box(
-                    modifier = Modifier.fillMaxSize(),
-                    contentAlignment = Alignment.Center
-                ) {
+                if (rotation <= 90f) {
+                    // Front of card
                     Column(
                         horizontalAlignment = Alignment.CenterHorizontally,
-                        modifier = Modifier.padding(16.dp)
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(16.dp),
+                        verticalArrangement = Arrangement.Center
                     ) {
                         Text(
                             text = flashcard.front,
@@ -106,50 +123,37 @@ fun FlashcardItem(
                             color = MaterialTheme.colorScheme.onPrimaryContainer
                         )
                         
-                        Spacer(modifier = Modifier.height(16.dp))
-                        
-                        IconButton(
-                            onClick = { showAnswer = !showAnswer }
-                        ) {
-                            Icon(
-                                imageVector = if (showAnswer) 
-                                    Icons.Default.KeyboardArrowUp 
-                                else Icons.Default.KeyboardArrowDown,
-                                contentDescription = if (showAnswer) "Hide answer" else "Show answer",
-                                tint = MaterialTheme.colorScheme.onPrimaryContainer
-                            )
-                        }
+                        Text(
+                            text = "Tap to flip",
+                            style = MaterialTheme.typography.bodySmall,
+                            modifier = Modifier.padding(top = 16.dp),
+                            color = MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.7f)
+                        )
                     }
-                }
-            }
-            
-            // Answer card
-            AnimatedVisibility(
-                visible = showAnswer,
-                enter = slideInVertically(
-                    initialOffsetY = { it },
-                    animationSpec = tween(durationMillis = 300, easing = EaseOutQuad)
-                ),
-                exit = slideOutVertically(
-                    targetOffsetY = { it },
-                    animationSpec = tween(durationMillis = 300, easing = EaseInQuad)
-                )
-            ) {
-                Card(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 24.dp, vertical = 8.dp),
-                    colors = CardDefaults.cardColors(
-                        containerColor = MaterialTheme.colorScheme.secondaryContainer
-                    )
-                ) {
-                    Text(
-                        text = flashcard.back,
-                        style = MaterialTheme.typography.bodyLarge,
-                        modifier = Modifier.padding(16.dp),
-                        textAlign = TextAlign.Center,
-                        color = MaterialTheme.colorScheme.onSecondaryContainer
-                    )
+                } else {
+                    // Back of card
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(16.dp)
+                            .graphicsLayer { rotationY = 180f }, // Flip text right-side up
+                        verticalArrangement = Arrangement.Center
+                    ) {
+                        Text(
+                            text = flashcard.back,
+                            style = MaterialTheme.typography.bodyLarge,
+                            textAlign = TextAlign.Center,
+                            color = MaterialTheme.colorScheme.onPrimaryContainer
+                        )
+                        
+                        Text(
+                            text = "Tap to flip",
+                            style = MaterialTheme.typography.bodySmall,
+                            modifier = Modifier.padding(top = 16.dp),
+                            color = MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.7f)
+                        )
+                    }
                 }
             }
         }
