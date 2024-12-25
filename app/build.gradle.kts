@@ -116,4 +116,7 @@ dependencies {
 
     // For flash card animations 
     implementation("androidx.compose.foundation:foundation:1.5.4")
+
+    // For JSON file support
+    implementation("com.google.code.gson:gson:2.11.0")
 }
