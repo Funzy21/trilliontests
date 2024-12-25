@@ -7,11 +7,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.quizai"
+    namespace = "com.trilliontests"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.example.quizai"
+        applicationId = "com.trilliontests"
         minSdk = 27
         targetSdk = 35
         versionCode = 1

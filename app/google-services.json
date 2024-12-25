@@ -2,14 +2,14 @@
   "project_info": {
     "project_number": "406271779462",
     "project_id": "quizai-startup",
-    "storage_bucket": "quizai-startup.firebasestorage.app"
+    "storage_bucket": "trilliontests-startup.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
         "mobilesdk_app_id": "1:406271779462:android:b9aca54f157a3214102707",
         "android_client_info": {
-          "package_name": "com.example.quizai"
+          "package_name": "com.trilliontests"
         }
       },
       "oauth_client": [],
