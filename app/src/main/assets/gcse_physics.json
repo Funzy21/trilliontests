@@ -1,0 +1,44 @@
+{
+  "quizzes": [
+    {
+      "id": "gcse_physics",
+      "title": "GCSE Physics",
+      "subject": "Physics",
+      "grade": "GCSE",
+      "concepts": [
+        "Forces",
+        "Energy",
+        "Waves",
+        "Electricity",
+        "Heat Transfer",
+        "Motion",
+        "Magnetism",
+        "Nuclear Physics"
+      ],
+      "description": "Comprehensive GCSE Physics practice questions covering key topics",
+      "questions": [
+        {
+          "id": "1",
+          "question": "What is the unit of force?",
+          "options": ["Joule", "Newton", "Watt", "Pascal"],
+          "correctAnswer": "Newton",
+          "type": "MULTIPLE_CHOICE"
+        },
+        {
+          "id": "2",
+          "question": "What is the formula for calculating kinetic energy?",
+          "options": ["KE = mv2", "KE = 1/2 mv2", "KE = mgh", "KE = Fd"],
+          "correctAnswer": "KE = 1/2 mv2",
+          "type": "MULTIPLE_CHOICE"
+        },
+        {
+          "id": "3",
+          "question": "What is the term for the distance between two consecutive crests of a wave?",
+          "options": ["Amplitude", "Wavelength", "Frequency", "Speed"],
+          "correctAnswer": "Wavelength",
+          "type": "MULTIPLE_CHOICE"
+        }
+      ]
+    }
+  ]
+} 

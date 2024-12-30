@@ -34,8 +34,11 @@ object AppModule {
     
     @Provides
     @Singleton
-    fun provideQuizRepository(quizDao: QuizDao): QuizRepository {
-        return QuizRepository(quizDao)
+    fun provideQuizRepository(
+        quizDao: QuizDao,
+        @ApplicationContext context: Context
+    ): QuizRepository {
+        return QuizRepository(quizDao, context)
     }
     
     @Provides

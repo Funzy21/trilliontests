@@ -3,6 +3,7 @@ package com.trilliontests.data.local.entity
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverter
+import com.trilliontests.model.QuestionType
 
 @Entity(tableName = "quizzes")
 data class QuizEntity(
@@ -21,7 +22,8 @@ data class QuizQuestionEntity(
     val quizId: String,
     val question: String,
     val options: List<String>,
-    val correctAnswer: String
+    val correctAnswer: String,
+    val type: QuestionType
 )
 
 class Converters {
@@ -30,4 +32,10 @@ class Converters {
 
     @TypeConverter
     fun toList(value: String): List<String> = value.split(",")
+    
+    @TypeConverter
+    fun fromQuestionType(value: QuestionType): String = value.name
+    
+    @TypeConverter
+    fun toQuestionType(value: String): QuestionType = QuestionType.valueOf(value)
 } 

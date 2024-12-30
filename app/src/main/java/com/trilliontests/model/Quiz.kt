@@ -9,4 +9,10 @@ data class Quiz(
     val concepts: List<String>,
     val description: String,
     val questions: List<QuizQuestion> = emptyList()
-)
+) {
+    val multipleChoiceCount: Int
+        get() = questions.count { it.type == QuestionType.MULTIPLE_CHOICE }
+    
+    val trueFalseCount: Int
+        get() = questions.count { it.type == QuestionType.TRUE_FALSE }
+}
