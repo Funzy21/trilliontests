@@ -73,7 +73,7 @@ fun SignInScreen(
         Spacer(modifier = Modifier.height(24.dp))
 
         Button(
-            onClick = { viewModel.signInWithEmailPassword(email, password) },
+            onClick = onSignIn,
             modifier = Modifier.fillMaxWidth()
         ) {
             Text("Sign In")

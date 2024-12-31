@@ -1,50 +1,72 @@
 {
   "quizzes": [
     {
-      "id": "sample_math",
-      "title": "Basic Algebra",
-      "subject": "Mathematics",
-      "grade": "9th",
-      "concepts": ["Equations", "Variables"],
-      "description": "Test your basic algebra knowledge",
-      "questions": [
+      "id": 1,
+      "topSubject": "GCSE",
+      "subject": "Physics",
+      "difficulty": 8,
+      "testType": "Multiple Choice",
+      "numberOfQuestions": 50,
+      "questionSet": [
         {
-          "id": "1",
-          "question": "What is the value of x in 2x + 4 = 10?",
-          "options": ["2", "3", "4", "5"],
-          "correctAnswer": "3",
+          "question": "What is the unit of force?",
+          "choices": {
+            "A": "Joule",
+            "B": "Newton",
+            "C": "Watt",
+            "D": "Pascal"
+          },
+          "correctAnswer": "B",
+          "explanation": "Force is measured in Newtons (N), named after Sir Isaac Newton.",
           "type": "MULTIPLE_CHOICE"
         },
         {
-          "id": "2",
-          "question": "Is it possible for an equation to have no solution?",
-          "options": ["True", "False"],
-          "correctAnswer": "True",
-          "type": "TRUE_FALSE"
-        }
-      ]
-    },
-    {
-      "id": "sample_driving",
-      "title": "UK Driving Theory",
-      "subject": "Driving",
-      "grade": "Theory Test",
-      "concepts": ["Road Safety", "Traffic Rules"],
-      "description": "Practice questions for the UK driving theory test",
-      "questions": [
-        {
-          "id": "d1",
-          "question": "What is the national speed limit on single carriageway roads for cars and motorcycles?",
-          "options": ["50 mph", "60 mph", "70 mph", "80 mph"],
-          "correctAnswer": "60 mph",
+          "question": "What is the formula for calculating kinetic energy?",
+          "choices": {
+            "A": "KE = mv²",
+            "B": "KE = 1/2 mv²",
+            "C": "KE = mgh",
+            "D": "KE = Fd"
+          },
+          "correctAnswer": "B",
+          "explanation": "Kinetic energy is calculated using KE = 1/2 mv², where m is mass and v is velocity.",
           "type": "MULTIPLE_CHOICE"
         },
         {
-          "id": "d2",
-          "question": "Must you always stop at a STOP sign?",
-          "options": ["True", "False"],
-          "correctAnswer": "True",
-          "type": "TRUE_FALSE"
+          "question": "What is the term for the distance between two consecutive crests of a wave?",
+          "choices": {
+            "A": "Amplitude",
+            "B": "Wavelength",
+            "C": "Frequency",
+            "D": "Speed"
+          },
+          "correctAnswer": "B",
+          "explanation": "Wavelength is the distance between two crests or troughs in a wave.",
+          "type": "MULTIPLE_CHOICE"
+        },
+        {
+          "question": "What is the unit of electric current?",
+          "choices": {
+            "A": "Volt",
+            "B": "Ohm",
+            "C": "Ampere",
+            "D": "Watt"
+          },
+          "correctAnswer": "C",
+          "explanation": "Electric current is measured in Amperes (A), also known as amps.",
+          "type": "MULTIPLE_CHOICE"
+        },
+        {
+          "question": "Which of the following is NOT a method of heat transfer?",
+          "choices": {
+            "A": "Conduction",
+            "B": "Convection",
+            "C": "Radiation",
+            "D": "Reflection"
+          },
+          "correctAnswer": "D",
+          "explanation": "Reflection is not a heat transfer method; it refers to the bouncing back of waves.",
+          "type": "MULTIPLE_CHOICE"
         }
       ]
     }

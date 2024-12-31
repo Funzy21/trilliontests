@@ -1,18 +1,17 @@
 package com.trilliontests.model
 
 data class Quiz(
-    val id: String,
-    val title: String,
+    val id: Int,
+    val topSubject: String,
     val subject: String,
-    val grade: String,
-    val questionCount: Int,
-    val concepts: List<String>,
-    val description: String,
-    val questions: List<QuizQuestion> = emptyList()
+    val difficulty: Int,
+    val testType: String,
+    val numberOfQuestions: Int,
+    val questionSet: List<QuizQuestion> = emptyList()
 ) {
     val multipleChoiceCount: Int
-        get() = questions.count { it.type == QuestionType.MULTIPLE_CHOICE }
+        get() = questionSet.count { it.type == QuestionType.MULTIPLE_CHOICE }
     
     val trueFalseCount: Int
-        get() = questions.count { it.type == QuestionType.TRUE_FALSE }
+        get() = questionSet.count { it.type == QuestionType.TRUE_FALSE }
 }

@@ -254,7 +254,7 @@ class MainActivity : ComponentActivity() {
                             composable("quiz/{quizId}") { backStackEntry ->
                                 val quizId = backStackEntry.arguments?.getString("quizId")
                                 val quizViewModel: StudyViewModel = hiltViewModel()
-                                val quiz by quizViewModel.loadQuiz(quizId ?: "").collectAsStateWithLifecycle()
+                                val quiz by quizViewModel.loadQuiz(quizId ?: "0").collectAsStateWithLifecycle()
 
                                 quiz?.let { currentQuiz ->
                                     QuizScreen(

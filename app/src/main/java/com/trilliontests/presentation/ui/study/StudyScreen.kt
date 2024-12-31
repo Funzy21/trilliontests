@@ -12,6 +12,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.trilliontests.model.Quiz
 import com.trilliontests.model.FlashcardSet
+import com.trilliontests.model.QuestionType
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -102,7 +103,7 @@ private fun QuizCard(
     onStartQuiz: (Quiz) -> Unit,
     viewModel: StudyViewModel
 ) {
-    val highScore by viewModel.getQuizHighScore(quiz.id).collectAsStateWithLifecycle()
+    val highScore by viewModel.getQuizHighScore(quiz.id.toString()).collectAsStateWithLifecycle()
 
     Card(
         onClick = { onStartQuiz(quiz) },
@@ -117,19 +118,37 @@ private fun QuizCard(
         ) {
             Column(modifier = Modifier.weight(1f)) {
                 Text(
-                    text = quiz.title,
+                    text = "${quiz.topSubject} - ${quiz.subject}",
                     style = MaterialTheme.typography.titleLarge
                 )
                 Spacer(modifier = Modifier.height(8.dp))
                 Text(
-                    text = quiz.description,
+                    text = "Level ${quiz.difficulty} ${quiz.testType}",
                     style = MaterialTheme.typography.bodyMedium
                 )
                 Spacer(modifier = Modifier.height(8.dp))
-                Text(
-                    text = "${quiz.questionCount} questions • ${quiz.subject}",
-                    style = MaterialTheme.typography.bodySmall
-                )
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = "${quiz.numberOfQuestions} questions",
+                        style = MaterialTheme.typography.bodySmall
+                    )
+                    // Add quiz type chip
+                    Surface(
+                        shape = MaterialTheme.shapes.small,
+                        color = MaterialTheme.colorScheme.secondaryContainer,
+                        modifier = Modifier.padding(vertical = 4.dp)
+                    ) {
+                        Text(
+                            text = getQuizTypeLabel(quiz),
+                            style = MaterialTheme.typography.labelSmall,
+                            modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
+                            color = MaterialTheme.colorScheme.onSecondaryContainer
+                        )
+                    }
+                }
             }
             
             Column(
@@ -142,11 +161,20 @@ private fun QuizCard(
                     color = MaterialTheme.colorScheme.primary
                 )
                 Text(
-                    text = highScore?.let { "$it/${quiz.questionCount}" } ?: "-",
+                    text = highScore?.let { "$it/${quiz.numberOfQuestions}" } ?: "-",
                     style = MaterialTheme.typography.titleMedium
                 )
             }
         }
+    }
+}
+
+private fun getQuizTypeLabel(quiz: Quiz): String {
+    return when {
+        quiz.questionSet.any { it.type == QuestionType.MATCHING } -> "Matching"
+        quiz.questionSet.all { it.type == QuestionType.TRUE_FALSE } -> "True/False"
+        quiz.questionSet.all { it.type == QuestionType.MULTIPLE_CHOICE } -> "Multiple Choice"
+        else -> quiz.testType
     }
 }
 

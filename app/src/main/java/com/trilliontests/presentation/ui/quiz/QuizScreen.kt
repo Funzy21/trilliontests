@@ -14,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.trilliontests.model.QuestionType
 import com.trilliontests.model.Quiz
 import com.trilliontests.model.QuizQuestion
 import com.trilliontests.model.QuizResult
@@ -28,19 +29,19 @@ fun QuizScreen(
     viewModel: StudyViewModel = hiltViewModel()
 ) {
     var currentQuestionIndex by remember { mutableStateOf(-1) } // -1 for countdown
-    var quizResult by remember { mutableStateOf(QuizResult(quiz.questions.size, 0)) }
+    var quizResult by remember { mutableStateOf(QuizResult(quiz.questionSet.size, 0)) }
     var questionsHistory by remember { mutableStateOf(mutableListOf<Boolean>()) }
     
     when {
         currentQuestionIndex == -1 -> {
             CountdownScreen { currentQuestionIndex = 0 }
         }
-        currentQuestionIndex < quiz.questions.size -> {
+        currentQuestionIndex < quiz.questionSet.size -> {
             QuestionScreen(
-                question = quiz.questions[currentQuestionIndex],
+                question = quiz.questionSet[currentQuestionIndex],
                 questionsHistory = questionsHistory.takeLast(5),
                 currentQuestionIndex = currentQuestionIndex,
-                totalQuestions = quiz.questions.size,
+                totalQuestions = quiz.questionSet.size,
                 onAnswerSelected = { isCorrect ->
                     questionsHistory.add(isCorrect)
                     if (isCorrect) {
@@ -55,13 +56,13 @@ fun QuizScreen(
                 result = quizResult,
                 onRetry = {
                     currentQuestionIndex = -1
-                    quizResult = QuizResult(quiz.questions.size, 0)
+                    quizResult = QuizResult(quiz.questionSet.size, 0)
                     questionsHistory.clear()
                 },
                 onExit = {
                     // Save high score before exiting
                     viewModel.updateHighScore(
-                        quizId = quiz.id,
+                        quizId = quiz.id.toString(),
                         score = quizResult.correctAnswers,
                         totalQuestions = quizResult.totalQuestions
                     )
@@ -116,12 +117,6 @@ private fun QuestionScreen(
             modifier = Modifier.padding(bottom = 8.dp)
         )
         
-        Text(
-            text = question.question,
-            style = MaterialTheme.typography.headlineMedium,
-            modifier = Modifier.padding(bottom = 24.dp)
-        )
-        
         // Question history indicators
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -140,20 +135,54 @@ private fun QuestionScreen(
         
         Spacer(modifier = Modifier.height(32.dp))
         
-        // Answer options in a grid
-        LazyVerticalGrid(
-            columns = GridCells.Fixed(2),
-            horizontalArrangement = Arrangement.spacedBy(16.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp),
-            modifier = Modifier.weight(1f)
-        ) {
-            items(question.options) { option ->
-                AnswerCard(
-                    answer = option,
-                    onClick = {
-                        onAnswerSelected(option == question.correctAnswer)
+        when (question.type) {
+            QuestionType.MATCHING -> {
+                MatchingQuestionView(
+                    question = question,
+                    onAnswerSubmitted = { answer ->
+                        onAnswerSelected(answer == question.correctAnswer)
                     }
                 )
+            }
+            else -> {
+                // Multiple choice and true/false handling
+                Text(
+                    text = question.question,
+                    style = MaterialTheme.typography.headlineMedium,
+                    modifier = Modifier.padding(bottom = 24.dp)
+                )
+                
+                LazyVerticalGrid(
+                    columns = GridCells.Fixed(2),
+                    horizontalArrangement = Arrangement.spacedBy(16.dp),
+                    verticalArrangement = Arrangement.spacedBy(16.dp),
+                    modifier = Modifier.weight(1f)
+                ) {
+                    items(question.choices.entries.toList()) { (key, value) ->
+                        AnswerCard(
+                            key = key,
+                            answer = value,
+                            onClick = {
+                                onAnswerSelected(key == question.correctAnswer)
+                            }
+                        )
+                    }
+                }
+
+                // Show explanation after answer is selected
+                if (questionsHistory.isNotEmpty() && questionsHistory.last()) {
+                    Spacer(modifier = Modifier.height(16.dp))
+                    Surface(
+                        color = MaterialTheme.colorScheme.primaryContainer,
+                        shape = MaterialTheme.shapes.medium
+                    ) {
+                        Text(
+                            text = question.explanation,
+                            style = MaterialTheme.typography.bodyMedium,
+                            modifier = Modifier.padding(16.dp)
+                        )
+                    }
+                }
             }
         }
     }
@@ -161,6 +190,7 @@ private fun QuestionScreen(
 
 @Composable
 private fun AnswerCard(
+    key: String,
     answer: String,
     onClick: () -> Unit
 ) {
@@ -176,11 +206,22 @@ private fun AnswerCard(
                 .padding(16.dp),
             contentAlignment = Alignment.Center
         ) {
-            Text(
-                text = answer,
-                style = MaterialTheme.typography.titleMedium,
-                textAlign = TextAlign.Center
-            )
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
+            ) {
+                Text(
+                    text = key,
+                    style = MaterialTheme.typography.labelLarge,
+                    color = MaterialTheme.colorScheme.primary
+                )
+                Spacer(modifier = Modifier.height(8.dp))
+                Text(
+                    text = answer,
+                    style = MaterialTheme.typography.bodyLarge,
+                    textAlign = TextAlign.Center
+                )
+            }
         }
     }
 }

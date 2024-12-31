@@ -2,20 +2,21 @@ package com.trilliontests.model
 
 enum class QuestionType {
     MULTIPLE_CHOICE,
-    TRUE_FALSE
+    TRUE_FALSE,
+    MATCHING
 }
 
 data class QuizQuestion(
-    val id: String,
     val question: String,
-    val options: List<String>,
+    val choices: Map<String, String>,
     val correctAnswer: String,
+    val explanation: String,
     val type: QuestionType
 ) {
-    // Convenience property to validate options based on question type
     val isValid: Boolean
         get() = when (type) {
-            QuestionType.MULTIPLE_CHOICE -> options.size >= 2
-            QuestionType.TRUE_FALSE -> options.containsAll(listOf("True", "False"))
+            QuestionType.MULTIPLE_CHOICE -> choices.size >= 4
+            QuestionType.TRUE_FALSE -> choices.size == 2
+            QuestionType.MATCHING -> false // We'll handle matching separately
         }
 } 

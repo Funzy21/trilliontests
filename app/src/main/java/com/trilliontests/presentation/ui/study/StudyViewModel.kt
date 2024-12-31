@@ -26,8 +26,8 @@ class StudyViewModel @Inject constructor(
             initialValue = emptyList()
         )
         
-    fun loadQuiz(quizId: String): StateFlow<Quiz?> = quizRepository.getQuiz(quizId)
-        .stateIn(
+    fun loadQuiz(quizId: String): StateFlow<Quiz?> = 
+        quizRepository.getQuiz(quizId.toInt()).stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(5000),
             initialValue = null
