@@ -69,6 +69,52 @@
           "type": "MULTIPLE_CHOICE"
         }
       ]
+    },
+    {
+      "id": 2,
+      "topSubject": "GCSE",
+      "subject": "Chemistry",
+      "difficulty": 8,
+      "testType": "Multiple Choice",
+      "numberOfQuestions": 50,
+      "questionSet": [
+        {
+          "question": "What is the charge of a proton?",
+          "choices": {
+            "A": "Negative",
+            "B": "Positive",
+            "C": "Neutral",
+            "D": "Variable"
+          },
+          "correctAnswer": "B",
+          "explanation": "A proton carries a positive (+1) electrical charge.",
+          "type": "MULTIPLE_CHOICE"
+        },
+        {
+          "question": "Which of the following elements is a noble gas?",
+          "choices": {
+            "A": "Oxygen",
+            "B": "Nitrogen",
+            "C": "Argon",
+            "D": "Chlorine"
+          },
+          "correctAnswer": "C",
+          "explanation": "Argon is a noble gas found in Group 18 of the periodic table.",
+          "type": "MULTIPLE_CHOICE"
+        },
+        {
+          "question": "What is the law that states that mass is neither created nor destroyed in a chemical reaction?",
+          "choices": {
+            "A": "Law of Conservation of Mass",
+            "B": "Law of Definite Proportions",
+            "C": "Law of Multiple Proportions",
+            "D": "Law of Conservation of Energy"
+          },
+          "correctAnswer": "A",
+          "explanation": "The Law of Conservation of Mass states that mass cannot be created or destroyed in a chemical reaction.",
+          "type": "MULTIPLE_CHOICE"
+        }
+      ]
     }
   ]
 } 
