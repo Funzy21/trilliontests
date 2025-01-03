@@ -10,8 +10,10 @@ val Purple40 = Color(0xFF6650a4)
 val PurpleGrey40 = Color(0xFF625b71)
 val Pink40 = Color(0xFF7D5260)
 
-// Custom green palette
-val PrimaryGreen = Color(0xFF4CAF50)
-val LightGreen = Color(0xFF81C784)
-val DarkGreen = Color(0xFF388E3C)
-val SurfaceGreen = Color(0xFFE8F5E9)
+// New blue palette
+val DarkBlue = Color(0xFF0446F1)
+val PrimaryBlue = Color(0xFF0446F1)
+val LightBlue = Color(0xFF0446F1)
+val SurfaceBlue = Color(0xFFF4F4F4)
+val AccentYellow = Color(0xFFFF0107)
+val AccentRed = Color(0xFF34A853)
