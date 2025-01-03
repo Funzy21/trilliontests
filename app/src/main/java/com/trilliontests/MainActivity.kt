@@ -131,7 +131,7 @@ class MainActivity : ComponentActivity() {
                                         }
                                     )
 
-                                    // Center tab
+                                    /* Center tab - SHELVED FOR NOW, WILL BE USED FOR UPLOADING DOCUMENTS
                                     NavigationBarItem(
                                         icon = {
                                             Icon(
@@ -144,6 +144,7 @@ class MainActivity : ComponentActivity() {
                                         selected = false,
                                         onClick = { /* TODO: Handle upload */ }
                                     )
+                                    */
 
                                     // Library tab
                                     NavigationBarItem(
