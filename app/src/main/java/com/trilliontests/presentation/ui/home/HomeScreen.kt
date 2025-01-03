@@ -15,7 +15,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -23,6 +23,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.trilliontests.model.Document
 import com.example.trilliontests.presentation.ui.components.LoginStreakCard
 import java.time.LocalDate
+import androidx.compose.ui.graphics.vector.ImageVector
+import com.trilliontests.presentation.ui.theme.AppIcons
 
 // Placeholder data classes
 data class Reminder(
@@ -57,7 +59,7 @@ fun HomeScreen(
                 color = MaterialTheme.colorScheme.primary,
                 fontWeight = FontWeight.Bold
             )
-            
+
             Row(
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
@@ -67,7 +69,7 @@ fun HomeScreen(
                     modifier = Modifier.clickable { },
                     tint = MaterialTheme.colorScheme.onBackground
                 )
-                
+
                 Icon(
                     imageVector = Icons.Default.Search,
                     contentDescription = "Search",
@@ -76,7 +78,7 @@ fun HomeScreen(
                 )
             }
         }
-        
+
         // Small top navigation row
         Row(
             modifier = Modifier
@@ -85,19 +87,19 @@ fun HomeScreen(
         ) {
             NavigationItem(
                 text = "Subject",
-                icon = Icons.Default.Email,
+                icon = AppIcons.subject(),
                 selected = false,
                 onClick = { /* TODO: Navigate to subjects */ }
             )
             NavigationItem(
                 text = "Progress",
-                icon = Icons.Default.Build,
+                icon = AppIcons.progress(),
                 selected = false,
                 onClick = { /* TODO: Navigate to progress */ }
             )
             NavigationItem(
                 text = "Community",
-                icon = Icons.Default.Face,
+                icon = AppIcons.community(),
                 selected = false,
                 onClick = { /* TODO: Navigate to community */ }
             )
@@ -129,16 +131,16 @@ fun HomeScreen(
                 .padding(16.dp)
                 .verticalScroll(rememberScrollState())
         ) {
-            
+
             Spacer(modifier = Modifier.height(16.dp))
-            
+
             // Login streak card
             LoginStreakCard(
                 streakDays = 6,
                 completedDays = listOf(true, true, true, true, true, false),
                 modifier = Modifier.fillMaxWidth()
             )
-            
+
             Spacer(modifier = Modifier.height(24.dp))
 
             // Recent Activity section
@@ -146,9 +148,9 @@ fun HomeScreen(
                 text = "Recent Activity",
                 style = MaterialTheme.typography.titleLarge
             )
-            
+
             Spacer(modifier = Modifier.height(8.dp))
-            
+
             LazyRow(
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
@@ -198,7 +200,7 @@ fun HomeScreen(
                     Icon(Icons.Filled.Notifications, contentDescription = "Add reminder")
                 }
             }
-            
+
             Spacer(modifier = Modifier.height(8.dp))
 
             reminders.forEach { reminder ->
@@ -247,14 +249,15 @@ private fun NavigationItem(
         Icon(
             imageVector = icon,
             contentDescription = text,
-            tint = if (selected) MaterialTheme.colorScheme.primary 
-                  else MaterialTheme.colorScheme.onBackground.copy(alpha = 0.6f)
+            modifier = Modifier.size(20.dp),
+            tint = if (selected) MaterialTheme.colorScheme.primary
+            else MaterialTheme.colorScheme.onBackground.copy(alpha = 0.6f)
         )
         Text(
             text = text,
             style = MaterialTheme.typography.labelMedium,
-            color = if (selected) MaterialTheme.colorScheme.primary 
-                   else MaterialTheme.colorScheme.onBackground.copy(alpha = 0.6f)
+            color = if (selected) MaterialTheme.colorScheme.primary
+            else MaterialTheme.colorScheme.onBackground.copy(alpha = 0.6f)
         )
         if (selected) {
             Spacer(modifier = Modifier.width(4.dp))
