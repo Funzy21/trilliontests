@@ -200,18 +200,24 @@ private fun QuestionScreen(
                     ) + fadeIn(animationSpec = tween(300)),
                     modifier = Modifier.fillMaxWidth()
                 ) {
-                    Column {
+                    Column(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
                         Spacer(modifier = Modifier.height(16.dp))
                         Surface(
                             color = MaterialTheme.colorScheme.primaryContainer,
-                            shape = MaterialTheme.shapes.medium
+                            shape = MaterialTheme.shapes.medium,
+                            modifier = Modifier
+                                .fillMaxWidth(0.9f)
                         ) {
                             Column(
                                 modifier = Modifier.padding(16.dp)
                             ) {
                                 Text(
                                     text = question.explanation,
-                                    style = MaterialTheme.typography.bodyMedium
+                                    style = MaterialTheme.typography.bodyMedium,
+                                    modifier = Modifier.fillMaxWidth()
                                 )
                                 
                                 Spacer(modifier = Modifier.height(16.dp))
