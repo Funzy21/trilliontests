@@ -87,7 +87,7 @@
             "D": "Variable"
           },
           "correctAnswer": "B",
-          "explanation": "A proton carries a positive (+1) electrical charge.",
+          "explanation": "Protons are subatomic particles with a positive charge, found in the nucleus of an atom.",
           "type": "MULTIPLE_CHOICE"
         },
         {
@@ -99,7 +99,7 @@
             "D": "Chlorine"
           },
           "correctAnswer": "C",
-          "explanation": "Argon is a noble gas found in Group 18 of the periodic table.",
+          "explanation": "Argon is a noble gas, part of Group 18 in the periodic table, known for its lack of reactivity.",
           "type": "MULTIPLE_CHOICE"
         },
         {
@@ -111,7 +111,571 @@
             "D": "Law of Conservation of Energy"
           },
           "correctAnswer": "A",
-          "explanation": "The Law of Conservation of Mass states that mass cannot be created or destroyed in a chemical reaction.",
+          "explanation": "The Law of Conservation of Mass states that the total mass of reactants equals the total mass of products in a chemical reaction.",
+          "type": "MULTIPLE_CHOICE"
+        },
+        {
+          "question": "What is the pH of a neutral solution at 25°C?",
+          "choices": {
+            "A": "0",
+            "B": "7",
+            "C": "14",
+            "D": "10"
+          },
+          "correctAnswer": "B",
+          "explanation": "A neutral solution has a pH of 7, indicating an equal concentration of H+ and OH- ions.",
+          "type": "MULTIPLE_CHOICE"
+        },
+        {
+          "question": "Which of the following is a characteristic of gases?",
+          "choices": {
+            "A": "Fixed shape",
+            "B": "Fixed volume",
+            "C": "Compressible",
+            "D": "High density"
+          },
+          "correctAnswer": "C",
+          "explanation": "Gases are compressible because their particles are widely spaced and can be compressed closer together.",
+          "type": "MULTIPLE_CHOICE"
+        },
+        {
+          "question": "What type of bond is formed when electrons are shared between atoms?",
+          "choices": {
+            "A": "Ionic bond",
+            "B": "Covalent bond",
+            "C": "Metallic bond",
+            "D": "Hydrogen bond"
+          },
+          "correctAnswer": "B",
+          "explanation": "A covalent bond involves the sharing of electron pairs between atoms.",
+          "type": "MULTIPLE_CHOICE"
+        },
+        {
+          "question": "Which metal is more reactive than copper?",
+          "choices": {
+            "A": "Gold",
+            "B": "Silver",
+            "C": "Iron",
+            "D": "Platinum"
+          },
+          "correctAnswer": "C",
+          "explanation": "Iron is more reactive than copper and can displace copper from its compounds in reactions.",
+          "type": "MULTIPLE_CHOICE"
+        },
+        {
+          "question": "What is the molar mass of water (H₂O)?",
+          "choices": {
+            "A": "16 g/mol",
+            "B": "18 g/mol",
+            "C": "20 g/mol",
+            "D": "22 g/mol"
+          },
+          "correctAnswer": "B",
+          "explanation": "The molar mass of water is calculated as 2(1) for hydrogen + 16 for oxygen = 18 g/mol.",
+          "type": "MULTIPLE_CHOICE"
+        },
+        {
+          "question": "Which of the following describes an exothermic reaction?",
+          "choices": {
+            "A": "Absorbs heat",
+            "B": "Releases heat",
+            "C": "Requires energy input",
+            "D": "Occurs at low temperatures"
+          },
+          "correctAnswer": "B",
+          "explanation": "Exothermic reactions release heat, increasing the surrounding temperature.",
+          "type": "MULTIPLE_CHOICE"
+        },
+        {
+          "question": "What is the term for the substance that is dissolved in a solution?",
+          "choices": {
+            "A": "Solvent",
+            "B": "Solute",
+            "C": "Solubility",
+            "D": "Concentration"
+          },
+          "correctAnswer": "B",
+          "explanation": "The solute is the substance that is dissolved in the solvent to form a solution.",
+          "type": "MULTIPLE_CHOICE"
+        },
+        {
+          "question": "What do we call the substances that are present at the start of a chemical reaction?",
+          "choices": {
+            "A": "Products",
+            "B": "Reactants",
+            "C": "Catalysts",
+            "D": "Solvents"
+          },
+          "correctAnswer": "B",
+          "explanation": "Reactants are the starting materials in a chemical reaction that are transformed into products.",
+          "type": "MULTIPLE_CHOICE"
+        },
+        {
+          "question": "What is the process of breaking down a compound using electricity called?",
+          "choices": {
+            "A": "Filtration",
+            "B": "Distillation",
+            "C": "Electrolysis",
+            "D": "Crystallization"
+          },
+          "correctAnswer": "C",
+          "explanation": "Electrolysis involves passing an electric current through a compound to decompose it into its elements or simpler compounds.",
+          "type": "MULTIPLE_CHOICE"
+        },
+        {
+          "question": "What is the simplest alkane?",
+          "choices": {
+            "A": "Ethane",
+            "B": "Methane",
+            "C": "Propane",
+            "D": "Butane"
+          },
+          "correctAnswer": "B",
+          "explanation": "Methane (CH₄) is the simplest alkane, consisting of one carbon atom bonded to four hydrogen atoms.",
+          "type": "MULTIPLE_CHOICE"
+        },
+        {
+          "question": "Which factor does NOT affect the rate of a chemical reaction?",
+          "choices": {
+            "A": "Temperature",
+            "B": "Concentration",
+            "C": "Surface Area",
+            "D": "Color of Reactants"
+          },
+          "correctAnswer": "D",
+          "explanation": "The color of the reactants has no bearing on the rate of a chemical reaction; factors like temperature and concentration do.",
+          "type": "MULTIPLE_CHOICE"
+        },
+        {
+          "question": "As you move from left to right across a period in the periodic table, what generally happens to the atomic radius?",
+          "choices": {
+            "A": "It increases",
+            "B": "It decreases",
+            "C": "It remains the same",
+            "D": "It fluctuates"
+          },
+          "correctAnswer": "B",
+          "explanation": "As you move across a period, the number of protons increases, pulling electrons closer to the nucleus and reducing atomic size.",
+          "type": "MULTIPLE_CHOICE"
+        },
+        {
+          "question": "What is produced when hydrocarbons combust completely in oxygen?",
+          "choices": {
+            "A": "Carbon Monoxide",
+            "B": "Water and Carbon Dioxide",
+            "C": "Carbon and Water",
+            "D": "Hydrogen and Carbon Dioxide"
+          },
+          "correctAnswer": "B",
+          "explanation": "Complete combustion of hydrocarbons yields CO₂ and H₂O as products.",
+          "type": "MULTIPLE_CHOICE"
+        },
+        {
+          "question": "Which of the following is a strong acid?",
+          "choices": {
+            "A": "Acetic Acid",
+            "B": "Hydrochloric Acid",
+            "C": "Citric Acid",
+            "D": "Carbonic Acid"
+          },
+          "correctAnswer": "B",
+          "explanation": "Hydrochloric acid (HCl) is a strong acid because it completely dissociates into H⁺ ions in aqueous solutions.",
+          "type": "MULTIPLE_CHOICE"
+        },
+        {
+          "question": "Which group in the periodic table contains the alkali metals?",
+          "choices": {
+            "A": "Group 1",
+            "B": "Group 2",
+            "C": "Group 17",
+            "D": "Group 18"
+          },
+          "correctAnswer": "A",
+          "explanation": "Alkali metals, such as lithium and sodium, are found in Group 1 and are highly reactive due to having one valence electron.",
+          "type": "MULTIPLE_CHOICE"
+        },
+        {
+          "question": "Which of the following is a common indicator used to test for acidity?",
+          "choices": {
+            "A": "Litmus",
+            "B": "Bromothymol blue",
+            "C": "Phenolphthalein",
+            "D": "All of the above"
+          },
+          "correctAnswer": "D",
+          "explanation": "Litmus, bromothymol blue, and phenolphthalein are all indicators used to test the pH of a solution.",
+          "type": "MULTIPLE_CHOICE"
+        },
+        {
+          "question": "What type of reaction occurs when an acid reacts with a base?",
+          "choices": {
+            "A": "Synthesis",
+            "B": "Decomposition",
+            "C": "Neutralization",
+            "D": "Combustion"
+          },
+          "correctAnswer": "C",
+          "explanation": "A neutralization reaction occurs when an acid reacts with a base to form water and a salt.",
+          "type": "MULTIPLE_CHOICE"
+        },
+        {
+          "question": "What is the smallest particle of an element that can exist independently?",
+          "choices": {
+            "A": "Atom",
+            "B": "Molecule",
+            "C": "Ion",
+            "D": "Electron"
+          },
+          "correctAnswer": "A",
+          "explanation": "An atom is the smallest unit of an element that retains its chemical properties.",
+          "type": "MULTIPLE_CHOICE"
+        },
+        {
+          "question": "Which of the following is a chemical change?",
+          "choices": {
+            "A": "Melting Ice",
+            "B": "Boiling Water",
+            "C": "Burning Wood",
+            "D": "Dissolving salt in water"
+          },
+          "correctAnswer": "C",
+          "explanation": "Burning wood is a chemical change because it produces new substances like carbon dioxide and ash.",
+          "type": "MULTIPLE_CHOICE"
+        },
+        {
+          "question": "What is the formula for sulfuric acid?",
+          "choices": {
+            "A": "HCl",
+            "B": "HNO₃",
+            "C": "H₂SO₄",
+            "D": "CH₃COOH"
+          },
+          "correctAnswer": "C",
+          "explanation": "Sulfuric acid is a strong acid with the molecular formula H₂SO₄.",
+          "type": "MULTIPLE_CHOICE"
+        },
+        {
+          "question": "What is the process of separating a mixture by heating it and collecting the vapors?",
+          "choices": {
+            "A": "Filtration",
+            "B": "Distillation",
+            "C": "Chromatography",
+            "D": "Evaporation"
+          },
+          "correctAnswer": "B",
+          "explanation": "Distillation separates components of a mixture based on differences in boiling points.",
+          "type": "MULTIPLE_CHOICE"
+        },
+        {
+          "question": "Which of the following is a property of metals?",
+          "choices": {
+            "A": "Dull appearance",
+            "B": "Brittle",
+            "C": "Good conductors of electricity",
+            "D": "Non-malleable"
+          },
+          "correctAnswer": "C",
+          "explanation": "Metals are excellent conductors of electricity due to the mobility of their delocalized electrons.",
+          "type": "MULTIPLE_CHOICE"
+        },
+        {
+          "question": "What is the term for the number of protons in an atom's nucleus?",
+          "choices": {
+            "A": "Atomic number",
+            "B": "Mass number",
+            "C": "Isotope",
+            "D": "Ion"
+          },
+          "correctAnswer": "A",
+          "explanation": "The atomic number represents the number of protons in an atom, which determines its identity.",
+          "type": "MULTIPLE_CHOICE"
+        },
+        {
+          "question": "What is the name of the positively charged particle in an atom?",
+          "choices": {
+            "A": "Neutron",
+            "B": "Electron",
+            "C": "Proton",
+            "D": "Ion"
+          },
+          "correctAnswer": "C",
+          "explanation": "Protons are positively charged particles found in the nucleus of an atom.",
+          "type": "MULTIPLE_CHOICE"
+        },
+        {
+          "question": "What is the process of adding water to a substance to form a solution?",
+          "choices": {
+            "A": "Dilution",
+            "B": "Concentration",
+            "C": "Saturation",
+            "D": "Precipitation"
+          },
+          "correctAnswer": "A",
+          "explanation": "Dilution involves adding water to reduce the concentration of a solution.",
+          "type": "MULTIPLE_CHOICE"
+        },
+        {
+          "question": "Which of the following is an example of an alkali metal?",
+          "choices": {
+            "A": "Carbon",
+            "B": "Sodium",
+            "C": "Chlorine",
+            "D": "Neon"
+          },
+          "correctAnswer": "B",
+          "explanation": "Sodium (Na) is an alkali metal in Group 1 of the periodic table.",
+          "type": "MULTIPLE_CHOICE"
+        },
+        {
+          "question": "What is the name of the process by which plants convert light energy into chemical energy?",
+          "choices": {
+            "A": "Respiration",
+            "B": "Photosynthesis",
+            "C": "Digestion",
+            "D": "Fermentation"
+          },
+          "correctAnswer": "B",
+          "explanation": "Photosynthesis is the process by which plants use sunlight to convert carbon dioxide and water into glucose and oxygen.",
+          "type": "MULTIPLE_CHOICE"
+        },
+        {
+          "question": "What is the formula for sodium chloride?",
+          "choices": {
+            "A": "NaCl",
+            "B": "HCl",
+            "C": "NaOH",
+            "D": "H₂SO₄"
+          },
+          "correctAnswer": "A",
+          "explanation": "Sodium chloride, commonly known as table salt, has the chemical formula NaCl.",
+          "type": "MULTIPLE_CHOICE"
+        },
+        {
+          "question": "What is the term for a substance that speeds up a chemical reaction without being used up itself?",
+          "choices": {
+            "A": "Catalyst",
+            "B": "Inhibitor",
+            "C": "Reactant",
+            "D": "Product"
+          },
+          "correctAnswer": "A",
+          "explanation": "A catalyst accelerates a reaction by lowering the activation energy without being consumed.",
+          "type": "MULTIPLE_CHOICE"
+        },
+        {
+          "question": "Which of the following is a property of non-metals?",
+          "choices": {
+            "A": "Malleable",
+            "B": "Ductile",
+            "C": "Good conductors of heat",
+            "D": "Brittle"
+          },
+          "correctAnswer": "D",
+          "explanation": "Non-metals are often brittle when solid and lack the malleability and ductility of metals.",
+          "type": "MULTIPLE_CHOICE"
+        },
+        {
+          "question": "What is the name of the process by which atoms lose or gain electrons?",
+          "choices": {
+            "A": "Ionization",
+            "B": "Oxidation",
+            "C": "Reduction",
+            "D": "Neutralization"
+          },
+          "correctAnswer": "A",
+          "explanation": "Ionization is the process where atoms gain or lose electrons to form ions.",
+          "type": "MULTIPLE_CHOICE"
+        },
+        {
+          "question": "What is the term for a substance that releases hydrogen ions (H+) when dissolved in water?",
+          "choices": {
+            "A": "Base",
+            "B": "Acid",
+            "C": "Salt",
+            "D": "Alkali"
+          },
+          "correctAnswer": "B",
+          "explanation": "Acids are substances that release H⁺ ions in aqueous solutions.",
+          "type": "MULTIPLE_CHOICE"
+        },
+        {
+          "question": "Which of the following is a measure of the concentration of hydrogen ions in a solution?",
+          "choices": {
+            "A": "pH",
+            "B": "pOH",
+            "C": "Kw",
+            "D": "Ka"
+          },
+          "correctAnswer": "A",
+          "explanation": "pH is a logarithmic scale used to quantify the concentration of hydrogen ions in a solution.",
+          "type": "MULTIPLE_CHOICE"
+        },
+        {
+          "question": "What is the name of the process by which a liquid turns into a gas?",
+          "choices": {
+            "A": "Melting",
+            "B": "Freezing",
+            "C": "Evaporation",
+            "D": "Condensation"
+          },
+          "correctAnswer": "C",
+          "explanation": "Evaporation occurs when particles at the surface of a liquid gain enough energy to enter the gas phase.",
+          "type": "MULTIPLE_CHOICE"
+        },
+        {
+          "question": "Which of the following is an example of a covalent compound?",
+          "choices": {
+            "A": "NaCl",
+            "B": "H₂O",
+            "C": "MgO",
+            "D": "KCl"
+          },
+          "correctAnswer": "C",
+          "explanation": "Water (H₂O) is a covalent compound because its atoms share electrons to form bonds.",
+          "type": "MULTIPLE_CHOICE"
+        },
+        {
+          "question": "What is the term for the force of attraction between molecules?",
+          "choices": {
+            "A": "Ionic Bond",
+            "B": "Covalent Bond",
+            "C": "Metallic Bond",
+            "D": "Intermolecular Forces"
+          },
+          "correctAnswer": "D",
+          "explanation": "Intermolecular forces are the attractive forces between molecules, such as hydrogen bonds or van der Waals forces.",
+          "type": "MULTIPLE_CHOICE"
+        },
+        {
+          "question": "Which of the following is a renewable energy source?",
+          "choices": {
+            "A": "Coal",
+            "B": "Oil",
+            "C": "Natural Gas",
+            "D": "Solar Power"
+          },
+          "correctAnswer": "D",
+          "explanation": "Solar power is renewable because it relies on sunlight, a resource that is replenished naturally.",
+          "type": "MULTIPLE_CHOICE"
+        },
+        {
+          "question": "Which of the following elements is in Group 2 of the periodic table?",
+          "choices": {
+            "A": "Sodium",
+            "B": "Magnesium",
+            "C": "Chlorine",
+            "D": "Argon"
+          },
+          "correctAnswer": "B",
+          "explanation": "Group 2 elements are known as alkaline earth metals, including magnesium (Mg), which has two valence electrons.",
+          "type": "MULTIPLE_CHOICE"
+        },
+        {
+          "question": "What is the electron configuration of a chlorine atom?",
+          "choices": {
+            "A": "2,8",
+            "B": "2,8,7",
+            "C": "2,8,8",
+            "D": "2,7"
+          },
+          "correctAnswer": "B",
+          "explanation": "Chlorine (atomic number 17) has an electron configuration of 2 electrons in the first shell, 8 in the second, and 7 in the third shell.",
+          "type": "MULTIPLE_CHOICE"
+        },
+        {
+          "question": "Which gas is produced when a metal reacts with hydrochloric acid?",
+          "choices": {
+            "A": "Oxygen",
+            "B": "Nitrogen",
+            "C": "Hydrogen",
+            "D": "Carbon Dioxide"
+          },
+          "correctAnswer": "C",
+          "explanation": "When a metal reacts with hydrochloric acid, hydrogen gas (H₂) is released, and a metal chloride is formed.",
+          "type": "MULTIPLE_CHOICE"
+        },
+        {
+          "question": "What type of structure does diamond have?",
+          "choices": {
+            "A": "Giant ionic lattice",
+            "B": "Simple molecular",
+            "C": "Giant covalent structure",
+            "D": "Metallic lattice"
+          },
+          "correctAnswer": "C",
+          "explanation": "Diamond has a giant covalent lattice structure where each carbon atom is covalently bonded to four other carbon atoms, giving it immense strength.",
+          "type": "MULTIPLE_CHOICE"
+        },
+        {
+          "question": "Which of the following compounds contains ionic bonds?",
+          "choices": {
+            "A": "H₂O",
+            "B": "NaCl",
+            "C": "CH₄",
+            "D": "CO₂"
+          },
+          "correctAnswer": "B",
+          "explanation": "Sodium chloride (NaCl) has ionic bonds formed by the transfer of electrons from sodium to chlorine, resulting in oppositely charged ions.",
+          "type": "MULTIPLE_CHOICE"
+        },
+        {
+          "question": "What is the test for carbon dioxide gas?",
+          "choices": {
+            "A": "It turns limewater cloudy",
+            "B": "It burns with a squeaky pop",
+            "C": "It reignites a glowing splint",
+            "D": "It turns damp litmus paper red"
+          },
+          "correctAnswer": "A",
+          "explanation": "Carbon dioxide reacts with limewater (calcium hydroxide solution) to form calcium carbonate, which is insoluble and makes the solution cloudy.",
+          "type": "MULTIPLE_CHOICE"
+        },
+        {
+          "question": "What is the chemical formula for ammonia?",
+          "choices": {
+            "A": "NH₄",
+            "B": "NH₃",
+            "C": "H₂N",
+            "D": "NH₂"
+          },
+          "correctAnswer": "B",
+          "explanation": "Ammonia is a compound with the chemical formula NH₃, consisting of one nitrogen atom and three hydrogen atoms.",
+          "type": "MULTIPLE_CHOICE"
+        },
+        {
+          "question": "What happens to the rate of a reaction when the surface area of a solid reactant is increased?",
+          "choices": {
+            "A": "It decreases",
+            "B": "It increases",
+            "C": "It remains the same",
+            "D": "It fluctuates"
+          },
+          "correctAnswer": "B",
+          "explanation": "Increasing the surface area of a solid reactant provides more area for collisions with reactant molecules, thereby increasing the reaction rate.",
+          "type": "MULTIPLE_CHOICE"
+        },
+        {
+          "question": "Which ion is responsible for the alkaline nature of solutions?",
+          "choices": {
+            "A": "H⁺",
+            "B": "OH⁻",
+            "C": "Cl⁻",
+            "D": "Na⁺"
+          },
+          "correctAnswer": "B",
+          "explanation": "Hydroxide ions (OH⁻) are released by bases and are responsible for the alkaline nature of a solution.",
+          "type": "MULTIPLE_CHOICE"
+        },
+        {
+          "question": "What is the process used to obtain pure water from seawater?",
+          "choices": {
+            "A": "Filtration",
+            "B": "Evaporation",
+            "C": "Distillation",
+            "D": "Crystallization"
+          },
+          "correctAnswer": "C",
+          "explanation": "Distillation involves heating seawater to produce steam and then condensing the steam to obtain pure water, leaving salts and impurities behind.",
           "type": "MULTIPLE_CHOICE"
         }
       ]

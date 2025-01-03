@@ -15,5 +15,7 @@ val DarkBlue = Color(0xFF0446F1)
 val PrimaryBlue = Color(0xFF0446F1)
 val LightBlue = Color(0xFF0446F1)
 val SurfaceBlue = Color(0xFFF4F4F4)
-val AccentYellow = Color(0xFFFF0107)
-val AccentRed = Color(0xFF34A853)
+val AccentRed = Color(0xFFFF0107)
+val AccentGreen = Color(0xFF34A853)
+val LightBlueBackground = Color(0xFFF5F9FF)  // A very light shade of blue
+

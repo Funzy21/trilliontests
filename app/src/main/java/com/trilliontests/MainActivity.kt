@@ -49,11 +49,57 @@ import com.trilliontests.presentation.ui.study.StudyViewModel
 import com.trilliontests.presentation.ui.auth.AuthViewModel
 import com.trilliontests.presentation.ui.auth.SignInScreen
 import com.trilliontests.presentation.ui.study.FlashcardScreen
+import com.trilliontests.presentation.ui.theme.AppIcons
 import dagger.hilt.android.AndroidEntryPoint
+import androidx.compose.animation.AnimatedContentTransitionScope
+import androidx.compose.animation.EnterTransition
+import androidx.compose.animation.ExitTransition
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
+import androidx.navigation.NavBackStackEntry
+import androidx.navigation.NavGraphBuilder
+import androidx.navigation.NavHostController
 
 @OptIn(ExperimentalMaterial3Api::class)
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+    private val navItems = listOf("home", "profile", "study", "library")
+
+    private fun AnimatedContentTransitionScope<NavBackStackEntry>.getEnterTransition(): EnterTransition {
+        val currentIndex = navItems.indexOf(initialState.destination.route)
+        val targetIndex = navItems.indexOf(targetState.destination.route)
+        return when {
+            targetIndex > currentIndex -> slideIntoContainer(
+                towards = AnimatedContentTransitionScope.SlideDirection.Left,
+                animationSpec = tween(300)
+            )
+            targetIndex < currentIndex -> slideIntoContainer(
+                towards = AnimatedContentTransitionScope.SlideDirection.Right,
+                animationSpec = tween(300)
+            )
+            else -> fadeIn(animationSpec = tween(300))
+        }
+    }
+
+    private fun AnimatedContentTransitionScope<NavBackStackEntry>.getExitTransition(): ExitTransition {
+        val currentIndex = navItems.indexOf(initialState.destination.route)
+        val targetIndex = navItems.indexOf(targetState.destination.route)
+        return when {
+            targetIndex > currentIndex -> slideOutOfContainer(
+                towards = AnimatedContentTransitionScope.SlideDirection.Left,
+                animationSpec = tween(300)
+            )
+            targetIndex < currentIndex -> slideOutOfContainer(
+                towards = AnimatedContentTransitionScope.SlideDirection.Right,
+                animationSpec = tween(300)
+            )
+            else -> fadeOut(animationSpec = tween(300))
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -98,7 +144,7 @@ class MainActivity : ComponentActivity() {
                                     NavigationBarItem(
                                         icon = {
                                             Icon(
-                                                Icons.Filled.Home,
+                                                AppIcons.home(),
                                                 contentDescription = "Home",
                                                 modifier = Modifier.size(24.dp)
                                             )
@@ -108,6 +154,24 @@ class MainActivity : ComponentActivity() {
                                         onClick = {
                                             navController.navigate("home") {
                                                 popUpTo("home") { inclusive = true }
+                                            }
+                                        }
+                                    )
+
+                                    // Profile tab
+                                    NavigationBarItem(
+                                        icon = {
+                                            Icon(
+                                                AppIcons.profile(),
+                                                contentDescription = "Profile",
+                                                modifier = Modifier.size(24.dp)
+                                            )
+                                        },
+                                        label = { Text("Profile") },
+                                        selected = currentRoute == "profile",
+                                        onClick = {
+                                            navController.navigate("profile") {
+                                                popUpTo("home")
                                             }
                                         }
                                     )
@@ -163,23 +227,6 @@ class MainActivity : ComponentActivity() {
                                         }
                                     )
 
-                                    // Profile tab
-                                    NavigationBarItem(
-                                        icon = {
-                                            Icon(
-                                                Icons.Filled.Person,
-                                                contentDescription = "Profile",
-                                                modifier = Modifier.size(24.dp)
-                                            )
-                                        },
-                                        label = { Text("Profile") },
-                                        selected = currentRoute == "profile",
-                                        onClick = {
-                                            navController.navigate("profile") {
-                                                popUpTo("home")
-                                            }
-                                        }
-                                    )
                                 }
                             }
                         }
@@ -192,7 +239,21 @@ class MainActivity : ComponentActivity() {
                         NavHost(
                             navController = navController,
                             startDestination = "auth",
-                            modifier = Modifier.padding(paddingValues)
+                            modifier = Modifier.padding(paddingValues),
+                            enterTransition = { getEnterTransition() },
+                            exitTransition = { getExitTransition() },
+                            popEnterTransition = {
+                                slideIntoContainer(
+                                    towards = AnimatedContentTransitionScope.SlideDirection.Right,
+                                    animationSpec = tween(300)
+                                )
+                            },
+                            popExitTransition = {
+                                slideOutOfContainer(
+                                    towards = AnimatedContentTransitionScope.SlideDirection.Right,
+                                    animationSpec = tween(300)
+                                )
+                            }
                         ) {
                             composable("auth") {
                                 SignInScreen(
@@ -212,6 +273,17 @@ class MainActivity : ComponentActivity() {
                                     }
                                 )
                             }
+
+                            composable("profile") {
+                                ProfileScreen(
+                                    onSignOut = {
+                                        navController.navigate("auth") {
+                                            popUpTo(0) { inclusive = true }
+                                        }
+                                    }
+                                )
+                            }
+
                             composable("study") {
                                 StudyScreen(
                                     onStartQuiz = { quiz ->
@@ -232,15 +304,7 @@ class MainActivity : ComponentActivity() {
                                     }
                                 )
                             }
-                            composable("profile") {
-                                ProfileScreen(
-                                    onSignOut = {
-                                        navController.navigate("auth") {
-                                            popUpTo(0) { inclusive = true }
-                                        }
-                                    }
-                                )
-                            }
+
                             composable("document_detail") {
                                 DocumentDetailScreen(
                                     document = Document(
@@ -287,3 +351,4 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
+

@@ -20,6 +20,9 @@ import com.trilliontests.model.QuizQuestion
 import com.trilliontests.model.QuizResult
 import com.trilliontests.presentation.ui.study.StudyViewModel
 import kotlinx.coroutines.delay
+import androidx.compose.animation.*
+import androidx.compose.animation.core.tween
+import androidx.compose.ui.graphics.Color
 
 @Composable
 fun QuizScreen(
@@ -47,6 +50,8 @@ fun QuizScreen(
                     if (isCorrect) {
                         quizResult = quizResult.copy(correctAnswers = quizResult.correctAnswers + 1)
                     }
+                },
+                onNextQuestion = {
                     currentQuestionIndex++
                 }
             )
@@ -102,8 +107,12 @@ private fun QuestionScreen(
     questionsHistory: List<Boolean>,
     currentQuestionIndex: Int,
     totalQuestions: Int,
-    onAnswerSelected: (Boolean) -> Unit
+    onAnswerSelected: (Boolean) -> Unit,
+    onNextQuestion: () -> Unit
 ) {
+    var showExplanation by remember { mutableStateOf(false) }
+    var selectedAnswer by remember { mutableStateOf<String?>(null) }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -124,9 +133,11 @@ private fun QuestionScreen(
         ) {
             questionsHistory.forEach { isCorrect ->
                 Icon(
-                    imageVector = if (isCorrect) Icons.Default.Check else Icons.Default.Close,
+                    imageVector = if (isCorrect)
+                        Icons.Default.Check
+                    else Icons.Default.Close,
                     contentDescription = if (isCorrect) "Correct" else "Incorrect",
-                    tint = if (isCorrect) MaterialTheme.colorScheme.primary 
+                    tint = if (isCorrect) Color(color = (0xFF34A853))
                           else MaterialTheme.colorScheme.error,
                     modifier = Modifier.padding(horizontal = 4.dp)
                 )
@@ -140,7 +151,11 @@ private fun QuestionScreen(
                 MatchingQuestionView(
                     question = question,
                     onAnswerSubmitted = { answer ->
-                        onAnswerSelected(answer == question.correctAnswer)
+                        if (selectedAnswer == null) {
+                            selectedAnswer = answer
+                            showExplanation = true
+                            onAnswerSelected(answer == question.correctAnswer)
+                        }
                     }
                 )
             }
@@ -162,25 +177,57 @@ private fun QuestionScreen(
                         AnswerCard(
                             key = key,
                             answer = value,
+                            isSelected = key == selectedAnswer,
+                            hasAnswered = selectedAnswer != null,
+                            correctAnswer = question.correctAnswer,
+                            enabled = selectedAnswer == null,
                             onClick = {
-                                onAnswerSelected(key == question.correctAnswer)
+                                if (selectedAnswer == null) {
+                                    selectedAnswer = key
+                                    showExplanation = true
+                                    onAnswerSelected(key == question.correctAnswer)
+                                }
                             }
                         )
                     }
                 }
 
-                // Show explanation after answer is selected
-                if (questionsHistory.isNotEmpty() && questionsHistory.last()) {
-                    Spacer(modifier = Modifier.height(16.dp))
-                    Surface(
-                        color = MaterialTheme.colorScheme.primaryContainer,
-                        shape = MaterialTheme.shapes.medium
-                    ) {
-                        Text(
-                            text = question.explanation,
-                            style = MaterialTheme.typography.bodyMedium,
-                            modifier = Modifier.padding(16.dp)
-                        )
+                AnimatedVisibility(
+                    visible = showExplanation,
+                    enter = slideInVertically(
+                        initialOffsetY = { it },
+                        animationSpec = tween(300)
+                    ) + fadeIn(animationSpec = tween(300)),
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Column {
+                        Spacer(modifier = Modifier.height(16.dp))
+                        Surface(
+                            color = MaterialTheme.colorScheme.primaryContainer,
+                            shape = MaterialTheme.shapes.medium
+                        ) {
+                            Column(
+                                modifier = Modifier.padding(16.dp)
+                            ) {
+                                Text(
+                                    text = question.explanation,
+                                    style = MaterialTheme.typography.bodyMedium
+                                )
+                                
+                                Spacer(modifier = Modifier.height(16.dp))
+                                
+                                Button(
+                                    onClick = {
+                                        selectedAnswer = null
+                                        showExplanation = false
+                                        onNextQuestion()
+                                    },
+                                    modifier = Modifier.align(Alignment.End)
+                                ) {
+                                    Text("Next Question")
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -192,13 +239,27 @@ private fun QuestionScreen(
 private fun AnswerCard(
     key: String,
     answer: String,
+    isSelected: Boolean,
+    hasAnswered: Boolean,
+    correctAnswer: String,
+    enabled: Boolean,
     onClick: () -> Unit
 ) {
+    val isCorrectAnswer = key == correctAnswer
+    
     Card(
         onClick = onClick,
         modifier = Modifier
             .fillMaxWidth()
-            .aspectRatio(1.5f)
+            .aspectRatio(1.5f),
+        enabled = enabled,
+        colors = CardDefaults.cardColors(
+            containerColor = when {
+                hasAnswered && isCorrectAnswer -> Color(0xFFB8F4B8)
+                hasAnswered && isSelected && !isCorrectAnswer -> Color(0xFFFFCDD2)
+                else -> Color(0xFFE6ECFA)
+            }
+        )
     ) {
         Box(
             modifier = Modifier
@@ -213,13 +274,22 @@ private fun AnswerCard(
                 Text(
                     text = key,
                     style = MaterialTheme.typography.labelLarge,
-                    color = MaterialTheme.colorScheme.primary
+                    color = when {
+                        hasAnswered && isCorrectAnswer -> Color(0xFF2E7D32)
+                        hasAnswered && isSelected && !isCorrectAnswer -> Color(0xFFB71C1C)
+                        else -> MaterialTheme.colorScheme.primary
+                    }
                 )
                 Spacer(modifier = Modifier.height(8.dp))
                 Text(
                     text = answer,
                     style = MaterialTheme.typography.bodyLarge,
-                    textAlign = TextAlign.Center
+                    textAlign = TextAlign.Center,
+                    color = when {
+                        hasAnswered && isCorrectAnswer -> Color(0xFF2E7D32)
+                        hasAnswered && isSelected && !isCorrectAnswer -> Color(0xFFB71C1C)
+                        else -> MaterialTheme.colorScheme.onSurface
+                    }
                 )
             }
         }

@@ -1,5 +1,6 @@
 package com.trilliontests.presentation.ui.theme
 
+import android.media.Image
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
@@ -15,4 +16,10 @@ object AppIcons {
     
     @Composable
     fun community(): ImageVector = ImageVector.vectorResource(id = R.drawable.community_icon)
+
+    @Composable
+    fun profile(): ImageVector = ImageVector.vectorResource(id = R.drawable.user_icon)
+
+    @Composable
+    fun home(): ImageVector = ImageVector.vectorResource(id = R.drawable.home_icon)
 } 
