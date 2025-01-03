@@ -59,9 +59,13 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.runtime.collectAsState
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
+import com.trilliontests.presentation.ui.onboarding.OnboardingViewModel
+import com.trilliontests.presentation.ui.onboarding.OnboardingScreen
+import com.trilliontests.presentation.ui.auth.AuthState
 
 @OptIn(ExperimentalMaterial3Api::class)
 @AndroidEntryPoint
@@ -256,11 +260,26 @@ class MainActivity : ComponentActivity() {
                             }
                         ) {
                             composable("auth") {
+                                val viewModel: AuthViewModel = hiltViewModel()
+                                val authState by viewModel.authState.collectAsState()
+                                
                                 SignInScreen(
                                     onSignIn = {
-                                        // Navigate to home screen after successful sign in
-                                        navController.navigate("home") {
+                                        navController.navigate("onboarding") {
                                             popUpTo("auth") { inclusive = true }
+                                        }
+                                    }
+                                )
+                            }
+
+                            composable("onboarding") {
+                                val viewModel: OnboardingViewModel = hiltViewModel()
+                                
+                                OnboardingScreen(
+                                    onComplete = {
+                                        viewModel.completeOnboarding()
+                                        navController.navigate("home") {
+                                            popUpTo("onboarding") { inclusive = true }
                                         }
                                     }
                                 )
