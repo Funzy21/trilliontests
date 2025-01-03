@@ -12,7 +12,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Person
@@ -40,7 +39,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.trilliontests.model.Document
 import com.trilliontests.presentation.ui.DocumentDetailScreen
-import com.trilliontests.presentation.ui.HomeScreen
+import com.trilliontests.presentation.ui.home.HomeScreen
 import com.trilliontests.presentation.ui.LibraryScreen
 import com.trilliontests.presentation.ui.ProfileScreen
 import com.trilliontests.presentation.ui.theme.EducationAppTheme
@@ -207,7 +206,11 @@ class MainActivity : ComponentActivity() {
                             }
 
                             composable("home") {
-                                HomeScreen()
+                                HomeScreen(
+                                    onNavigateToDocument = { document ->
+                                        navController.navigate("document_detail")
+                                    }
+                                )
                             }
                             composable("study") {
                                 StudyScreen(
