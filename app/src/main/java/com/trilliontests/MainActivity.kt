@@ -72,6 +72,7 @@ import com.trilliontests.presentation.ui.auth.AuthState
 class MainActivity : ComponentActivity() {
     private val navItems = listOf("home", "profile", "study", "library")
 
+    // Extension function that handles the animation for switching between navigation items
     private fun AnimatedContentTransitionScope<NavBackStackEntry>.getEnterTransition(): EnterTransition {
         val currentIndex = navItems.indexOf(initialState.destination.route)
         val targetIndex = navItems.indexOf(targetState.destination.route)
@@ -88,6 +89,7 @@ class MainActivity : ComponentActivity() {
         }
     }
 
+    // Extension function that handles the animation for switching between navigation items
     private fun AnimatedContentTransitionScope<NavBackStackEntry>.getExitTransition(): ExitTransition {
         val currentIndex = navItems.indexOf(initialState.destination.route)
         val targetIndex = navItems.indexOf(targetState.destination.route)

@@ -105,10 +105,10 @@
         {
           "question": "What is the law that states that mass is neither created nor destroyed in a chemical reaction?",
           "choices": {
-            "A": "Law of Conservation of Mass",
-            "B": "Law of Definite Proportions",
-            "C": "Law of Multiple Proportions",
-            "D": "Law of Conservation of Energy"
+            "A": "Conservation of Mass",
+            "B": "Definite Proportions",
+            "C": "Multiple Proportions",
+            "D": "Conservation of Energy"
           },
           "correctAnswer": "A",
           "explanation": "The Law of Conservation of Mass states that the total mass of reactants equals the total mass of products in a chemical reaction.",
