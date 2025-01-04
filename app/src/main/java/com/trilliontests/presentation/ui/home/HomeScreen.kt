@@ -136,9 +136,11 @@ fun HomeScreen(
 
             // Login streak card
             LoginStreakCard(
-                streakDays = 6,
-                completedDays = listOf(true, true, true, true, true, false),
-                modifier = Modifier.fillMaxWidth()
+                streakDays = 2,
+                completedDays = listOf(true, false, false, false, false, false, false),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp)
             )
 
             Spacer(modifier = Modifier.height(24.dp))
