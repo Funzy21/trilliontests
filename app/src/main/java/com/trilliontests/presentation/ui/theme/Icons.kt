@@ -25,4 +25,7 @@ object AppIcons {
 
     @Composable
     fun streak(): ImageVector = ImageVector.vectorResource(id = R.drawable.streak_icon)
+
+    @Composable
+    fun help(): ImageVector = ImageVector.vectorResource(id = R.drawable.help_icon)
 } 
