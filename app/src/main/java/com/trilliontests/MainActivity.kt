@@ -66,11 +66,12 @@ import androidx.navigation.NavHostController
 import com.trilliontests.presentation.ui.onboarding.OnboardingViewModel
 import com.trilliontests.presentation.ui.onboarding.OnboardingScreen
 import com.trilliontests.presentation.ui.auth.AuthState
+import com.trilliontests.presentation.ui.help.HelpScreen
 
 @OptIn(ExperimentalMaterial3Api::class)
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-    private val navItems = listOf("home", "profile", "study", "library")
+    private val navItems = listOf("home", "profile", "study", "help")
 
     // Extension function that handles the animation for switching between navigation items
     private fun AnimatedContentTransitionScope<NavBackStackEntry>.getEnterTransition(): EnterTransition {
@@ -186,7 +187,7 @@ class MainActivity : ComponentActivity() {
                                     NavigationBarItem(
                                         icon = {
                                             Icon(
-                                                Icons.Filled.Star,
+                                                AppIcons.subject(),
                                                 contentDescription = "Study",
                                                 modifier = Modifier.size(24.dp)
                                             )
@@ -215,19 +216,19 @@ class MainActivity : ComponentActivity() {
                                     )
                                     */
 
-                                    // Library tab
+                                    // Help tab
                                     NavigationBarItem(
                                         icon = {
                                             Icon(
-                                                Icons.Filled.Email,
-                                                contentDescription = "Library",
+                                                AppIcons.help(),
+                                                contentDescription = "Help",
                                                 modifier = Modifier.size(24.dp)
                                             )
                                         },
-                                        label = { Text("Library") },
-                                        selected = currentRoute == "library",
+                                        label = { Text("Help") },
+                                        selected = currentRoute == "help",
                                         onClick = {
-                                            navController.navigate("library") {
+                                            navController.navigate("help") {
                                                 popUpTo("home")
                                             }
                                         }
@@ -315,15 +316,8 @@ class MainActivity : ComponentActivity() {
                                     }
                                 )
                             }
-                            composable("library") {
-                                LibraryScreen(
-                                    onDocumentClick = { document ->
-                                        navController.navigate("document_detail")
-                                    },
-                                    onFolderClick = { folder ->
-                                        // TODO: Navigate to folder contents
-                                    }
-                                )
+                            composable("help") {
+                                HelpScreen()
                             }
 
                             composable("document_detail") {
