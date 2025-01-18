@@ -1,4 +1,4 @@
-package com.trilliontests.data.preferences
+package com.trilliontests.model.userdata
 
 data class UserPreferences(
     val hasCompletedOnboarding: Boolean = false,
