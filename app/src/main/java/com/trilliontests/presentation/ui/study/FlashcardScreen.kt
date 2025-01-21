@@ -16,6 +16,10 @@ import com.trilliontests.model.Flashcard
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.clickable
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.Refresh
+import androidx.compose.material.icons.filled.Settings
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -26,40 +30,95 @@ fun FlashcardScreen(
 ) {
     val pagerState = rememberPagerState(pageCount = { flashcards.size })
     
-    Column(
-        modifier = modifier
-            .fillMaxSize()
-            .padding(16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
+    Box(
+        modifier = modifier.fillMaxSize()
     ) {
-        // Progress text
-        Text(
-            text = "${pagerState.currentPage + 1} / ${flashcards.size}",
-            style = MaterialTheme.typography.titleMedium,
-            modifier = Modifier.padding(bottom = 8.dp)
-        )
-        
-        // Progress bar
-        LinearProgressIndicator(
-            progress = (pagerState.currentPage + 1).toFloat() / flashcards.size,
+        // Top bar with close and settings buttons
+        Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(4.dp)
-                .clip(RoundedCornerShape(2.dp)),
-            color = MaterialTheme.colorScheme.primary,
-            trackColor = MaterialTheme.colorScheme.primaryContainer
-        )
-        
-        Spacer(modifier = Modifier.height(32.dp))
-        
-        // Flashcard pager
-        HorizontalPager(
-            state = pagerState,
-            modifier = Modifier.fillMaxWidth()
-        ) { page ->
-            FlashcardItem(
-                flashcard = flashcards[page],
-                modifier = Modifier.fillMaxWidth()
+                .padding(16.dp)
+                .align(Alignment.TopCenter),
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            IconButton(onClick = onBack) {
+                Icon(
+                    Icons.Default.Close,
+                    contentDescription = "Close",
+                    tint = MaterialTheme.colorScheme.onBackground
+                )
+            }
+            IconButton(onClick = { /* TODO: Settings */ }) {
+                Icon(
+                    Icons.Default.Settings,
+                    contentDescription = "Settings",
+                    tint = MaterialTheme.colorScheme.onBackground
+                )
+            }
+        }
+
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(16.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Spacer(modifier = Modifier.height(48.dp))
+            
+            // Title
+            Text(
+                text = "Biology Review",
+                style = MaterialTheme.typography.headlineMedium,
+                color = MaterialTheme.colorScheme.primary
+            )
+            
+            Spacer(modifier = Modifier.height(24.dp))
+
+            // Flashcard pager
+            HorizontalPager(
+                state = pagerState,
+                modifier = Modifier.weight(1f)
+            ) { page ->
+                FlashcardItem(
+                    flashcard = flashcards[page],
+                    modifier = Modifier.fillMaxWidth()
+                )
+            }
+            
+            Spacer(modifier = Modifier.height(24.dp))
+
+            // Bottom progress section
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                // Progress text
+                Text(
+                    text = "${pagerState.currentPage + 1}/${flashcards.size}",
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.6f)
+                )
+                
+                // Refresh button
+                IconButton(onClick = { /* TODO: Refresh */ }) {
+                    Icon(
+                        Icons.Default.Refresh,
+                        contentDescription = "Refresh",
+                        tint = MaterialTheme.colorScheme.primary
+                    )
+                }
+            }
+            
+            // Progress indicator
+            LinearProgressIndicator(
+                progress = (pagerState.currentPage + 1).toFloat() / flashcards.size,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(8.dp)
+                    .clip(RoundedCornerShape(4.dp)),
+                color = MaterialTheme.colorScheme.primary,
+                trackColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.2f)
             )
         }
     }
@@ -77,22 +136,24 @@ fun FlashcardItem(
     )
     
     Box(
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp),
         contentAlignment = Alignment.Center
     ) {
         Card(
             modifier = Modifier
                 .fillMaxWidth()
                 .aspectRatio(1f)
-                .padding(horizontal = 24.dp)
                 .graphicsLayer {
                     rotationY = rotation
                     cameraDistance = 12f * density
                 }
                 .clickable { isFlipped = !isFlipped },
             colors = CardDefaults.cardColors(
-                containerColor = MaterialTheme.colorScheme.primaryContainer
-            )
+                containerColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.8f)
+            ),
+            shape = RoundedCornerShape(24.dp)
         ) {
             Box(
                 modifier = Modifier.fillMaxSize(),
@@ -104,21 +165,20 @@ fun FlashcardItem(
                         horizontalAlignment = Alignment.CenterHorizontally,
                         modifier = Modifier
                             .fillMaxSize()
-                            .padding(16.dp),
+                            .padding(24.dp),
                         verticalArrangement = Arrangement.Center
                     ) {
                         Text(
-                            text = flashcard.front,
-                            style = MaterialTheme.typography.headlineMedium,
-                            textAlign = TextAlign.Center,
-                            color = MaterialTheme.colorScheme.onPrimaryContainer
+                            text = "Question",
+                            style = MaterialTheme.typography.titleMedium,
+                            color = MaterialTheme.colorScheme.onPrimary.copy(alpha = 0.7f)
                         )
-                        
+                        Spacer(modifier = Modifier.height(16.dp))
                         Text(
-                            text = "Tap to flip",
-                            style = MaterialTheme.typography.bodySmall,
-                            modifier = Modifier.padding(top = 16.dp),
-                            color = MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.7f)
+                            text = flashcard.front,
+                            style = MaterialTheme.typography.bodyLarge,
+                            textAlign = TextAlign.Center,
+                            color = MaterialTheme.colorScheme.onPrimary
                         )
                     }
                 } else {
@@ -127,22 +187,21 @@ fun FlashcardItem(
                         horizontalAlignment = Alignment.CenterHorizontally,
                         modifier = Modifier
                             .fillMaxSize()
-                            .padding(16.dp)
-                            .graphicsLayer { rotationY = 180f }, // Flip text right-side up
+                            .padding(24.dp)
+                            .graphicsLayer { rotationY = 180f },
                         verticalArrangement = Arrangement.Center
                     ) {
+                        Text(
+                            text = "Answer",
+                            style = MaterialTheme.typography.titleMedium,
+                            color = MaterialTheme.colorScheme.onPrimary.copy(alpha = 0.7f)
+                        )
+                        Spacer(modifier = Modifier.height(16.dp))
                         Text(
                             text = flashcard.back,
                             style = MaterialTheme.typography.bodyLarge,
                             textAlign = TextAlign.Center,
-                            color = MaterialTheme.colorScheme.onPrimaryContainer
-                        )
-                        
-                        Text(
-                            text = "Tap to flip",
-                            style = MaterialTheme.typography.bodySmall,
-                            modifier = Modifier.padding(top = 16.dp),
-                            color = MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.7f)
+                            color = MaterialTheme.colorScheme.onPrimary
                         )
                     }
                 }
