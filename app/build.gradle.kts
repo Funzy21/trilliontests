@@ -4,6 +4,7 @@ plugins {
     id("com.google.devtools.ksp") version "1.9.21-1.0.15"
     id("com.google.dagger.hilt.android")
     id("com.google.gms.google-services") version "4.4.2"
+    kotlin("plugin.serialization") version "1.9.10" //Plugin for JSON Serialization
 }
 
 android {
@@ -64,6 +65,8 @@ dependencies {
     implementation(libs.androidx.material3)
     implementation(libs.androidx.navigation.compose)
     implementation(libs.firebase.auth)
+    implementation(libs.androidx.datastore.core.android)
+    implementation(libs.androidx.datastore.preferences.core.jvm)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -119,4 +122,10 @@ dependencies {
 
     // For JSON file support
     implementation("com.google.code.gson:gson:2.11.0")
+
+    // For Data Store Preferences
+    implementation("androidx.datastore:datastore-preferences:1.0.0")
+
+    //JSON Serialization/Deserialization
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0")
 }
