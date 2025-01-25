@@ -14,14 +14,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import android.content.Intent
-import android.net.Uri
-import com.google.ai.client.generativeai.Chat
-import com.google.android.libraries.intelligence.acceleration.Analytics
 import androidx.compose.material.icons.filled.*
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.ui.graphics.vector.ImageVector
 
