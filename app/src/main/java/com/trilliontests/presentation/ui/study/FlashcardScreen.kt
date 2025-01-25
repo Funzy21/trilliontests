@@ -20,6 +20,15 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material.icons.filled.Settings
+import androidx.compose.foundation.gestures.detectDragGestures
+import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.material.icons.filled.ThumbUp
+import androidx.compose.ui.graphics.Color
+import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.core.spring
+import androidx.compose.material.icons.filled.Clear
+import kotlin.math.absoluteValue
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -28,7 +37,9 @@ fun FlashcardScreen(
     modifier: Modifier = Modifier,
     onBack: () -> Unit = {}
 ) {
-    val pagerState = rememberPagerState(pageCount = { flashcards.size })
+    var currentCardIndex by remember { mutableStateOf(0) }
+    var masteredCards by remember { mutableStateOf(setOf<String>()) }
+    var learningCards by remember { mutableStateOf(setOf<String>()) }
     
     Box(
         modifier = modifier.fillMaxSize()
@@ -65,56 +76,56 @@ fun FlashcardScreen(
         ) {
             Spacer(modifier = Modifier.height(48.dp))
             
-            // Title
-            Text(
-                text = "Biology Review",
-                style = MaterialTheme.typography.headlineMedium,
-                color = MaterialTheme.colorScheme.primary
-            )
-            
-            Spacer(modifier = Modifier.height(24.dp))
-
-            // Flashcard pager
-            HorizontalPager(
-                state = pagerState,
-                modifier = Modifier.weight(1f)
-            ) { page ->
-                FlashcardItem(
-                    flashcard = flashcards[page],
-                    modifier = Modifier.fillMaxWidth()
-                )
-            }
-            
-            Spacer(modifier = Modifier.height(24.dp))
-
-            // Bottom progress section
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
+            // Title with progress
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                // Progress text
                 Text(
-                    text = "${pagerState.currentPage + 1}/${flashcards.size}",
+                    text = "Biology Review",
+                    style = MaterialTheme.typography.headlineMedium,
+                    color = MaterialTheme.colorScheme.primary
+                )
+                Text(
+                    text = "Mastered: ${masteredCards.size} | Learning: ${learningCards.size}",
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.6f)
                 )
-                
-                // Refresh button
-                IconButton(onClick = { /* TODO: Refresh */ }) {
-                    Icon(
-                        Icons.Default.Refresh,
-                        contentDescription = "Refresh",
-                        tint = MaterialTheme.colorScheme.primary
-                    )
-                }
             }
             
+            Spacer(modifier = Modifier.height(24.dp))
+
+            // Current flashcard
+            if (currentCardIndex < flashcards.size) {
+                SwipeableFlashcard(
+                    flashcard = flashcards[currentCardIndex],
+                    onSwipeLeft = {
+                        learningCards = learningCards + flashcards[currentCardIndex].id
+                        currentCardIndex++
+                    },
+                    onSwipeRight = {
+                        masteredCards = masteredCards + flashcards[currentCardIndex].id
+                        currentCardIndex++
+                    }
+                )
+            } else {
+                // Show completion screen
+                FlashcardCompletionScreen(
+                    totalCards = flashcards.size,
+                    masteredCount = masteredCards.size,
+                    onRestart = {
+                        currentCardIndex = 0
+                        masteredCards = emptySet()
+                        learningCards = emptySet()
+                    }
+                )
+            }
+
             // Progress indicator
             LinearProgressIndicator(
-                progress = (pagerState.currentPage + 1).toFloat() / flashcards.size,
+                progress = currentCardIndex.toFloat() / flashcards.size,
                 modifier = Modifier
                     .fillMaxWidth()
+                    .padding(vertical = 16.dp)
                     .height(8.dp)
                     .clip(RoundedCornerShape(4.dp)),
                 color = MaterialTheme.colorScheme.primary,
@@ -125,15 +136,22 @@ fun FlashcardScreen(
 }
 
 @Composable
-fun FlashcardItem(
+fun SwipeableFlashcard(
     flashcard: Flashcard,
+    onSwipeLeft: () -> Unit,
+    onSwipeRight: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+    var offsetX by remember { mutableStateOf(0f) }
     var isFlipped by remember { mutableStateOf(false) }
+    
     val rotation by animateFloatAsState(
         targetValue = if (isFlipped) 180f else 0f,
         label = "card_flip"
     )
+
+    val swipeThreshold = with(LocalDensity.current) { 96.dp.toPx() }
+    val alpha = (offsetX.absoluteValue / swipeThreshold).coerceIn(0f, 1f)
     
     Box(
         modifier = modifier
@@ -141,10 +159,50 @@ fun FlashcardItem(
             .padding(horizontal = 16.dp),
         contentAlignment = Alignment.Center
     ) {
+        // Swipe indicators
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 32.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Icon(
+                Icons.Default.Clear,
+                contentDescription = "Still Learning",
+                tint = Color.Red.copy(alpha = if (offsetX < 0) alpha else 0f),
+                modifier = Modifier.size(48.dp)
+            )
+            Icon(
+                Icons.Default.ThumbUp,
+                contentDescription = "Mastered",
+                tint = Color(0xFF4CAF50).copy(alpha = if (offsetX > 0) alpha else 0f),
+                modifier = Modifier.size(48.dp)
+            )
+        }
+
         Card(
             modifier = Modifier
                 .fillMaxWidth()
                 .aspectRatio(1f)
+                .offset(x = animateDpAsState(
+                    targetValue = offsetX.dp,
+                    animationSpec = spring()
+                ).value)
+                .pointerInput(Unit) {
+                    detectDragGestures(
+                        onDragEnd = {
+                            if (offsetX.absoluteValue >= swipeThreshold) {
+                                if (offsetX > 0) onSwipeRight() else onSwipeLeft()
+                            }
+                            offsetX = 0f
+                        },
+                        onDrag = { change, dragAmount ->
+                            change.consume()
+                            offsetX += dragAmount.x
+                        }
+                    )
+                }
                 .graphicsLayer {
                     rotationY = rotation
                     cameraDistance = 12f * density
@@ -206,6 +264,47 @@ fun FlashcardItem(
                     }
                 }
             }
+        }
+    }
+}
+
+@Composable
+private fun FlashcardCompletionScreen(
+    totalCards: Int,
+    masteredCount: Int,
+    onRestart: () -> Unit
+) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(32.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+        Icon(
+            Icons.Default.ThumbUp,
+            contentDescription = null,
+            tint = MaterialTheme.colorScheme.primary,
+            modifier = Modifier.size(64.dp)
+        )
+        
+        Spacer(modifier = Modifier.height(16.dp))
+        
+        Text(
+            text = "Great job!",
+            style = MaterialTheme.typography.headlineMedium
+        )
+        
+        Text(
+            text = "You've mastered $masteredCount out of $totalCards cards",
+            style = MaterialTheme.typography.bodyLarge,
+            textAlign = TextAlign.Center
+        )
+        
+        Spacer(modifier = Modifier.height(24.dp))
+        
+        Button(onClick = onRestart) {
+            Text("Practice Again")
         }
     }
 }
