@@ -67,6 +67,7 @@ import com.trilliontests.presentation.ui.onboarding.OnboardingViewModel
 import com.trilliontests.presentation.ui.onboarding.OnboardingScreen
 import com.trilliontests.presentation.ui.auth.AuthState
 import com.trilliontests.presentation.ui.help.HelpScreen
+import com.trilliontests.presentation.ui.notifications.NotificationsScreen
 
 @OptIn(ExperimentalMaterial3Api::class)
 @AndroidEntryPoint
@@ -292,6 +293,9 @@ class MainActivity : ComponentActivity() {
                                 HomeScreen(
                                     onNavigateToDocument = { document ->
                                         navController.navigate("document_detail")
+                                    },
+                                    onNavigateToNotifications = {
+                                        navController.navigate("notifications")
                                     }
                                 )
                             }
@@ -358,6 +362,13 @@ class MainActivity : ComponentActivity() {
                                         onBack = { navController.popBackStack() }
                                     )
                                 }
+                            }
+                            composable("notifications") {
+                                NotificationsScreen(
+                                    onNavigateBack = {
+                                        navController.popBackStack()
+                                    }
+                                )
                             }
                         }
                     }

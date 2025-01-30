@@ -12,6 +12,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -25,6 +26,8 @@ import com.example.trilliontests.presentation.ui.components.LoginStreakCard
 import java.time.LocalDate
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.trilliontests.presentation.ui.theme.AppIcons
+import com.trilliontests.presentation.ui.components.NotificationsDialog
+import androidx.compose.runtime.getValue
 
 // Placeholder data classes
 data class Reminder(
@@ -38,8 +41,11 @@ data class Reminder(
 @Composable
 fun HomeScreen(
     viewModel: HomeViewModel = hiltViewModel(),
-    onNavigateToDocument: (Document) -> Unit
+    onNavigateToDocument: (Document) -> Unit,
+    onNavigateToNotifications: () -> Unit
 ) {
+    val uiState by viewModel.uiState.collectAsState()
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -63,6 +69,15 @@ fun HomeScreen(
             Row(
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
+                // Search icon first
+                Icon(
+                    imageVector = Icons.Default.Search,
+                    contentDescription = "Search",
+                    modifier = Modifier.clickable { },
+                    tint = MaterialTheme.colorScheme.onBackground
+                )
+
+                // Settings icon
                 Icon(
                     imageVector = Icons.Default.Settings,
                     contentDescription = "Settings",
@@ -70,12 +85,21 @@ fun HomeScreen(
                     tint = MaterialTheme.colorScheme.onBackground
                 )
 
-                Icon(
-                    imageVector = Icons.Default.Search,
-                    contentDescription = "Search",
-                    modifier = Modifier.clickable { },
-                    tint = MaterialTheme.colorScheme.onBackground
-                )
+                // Notifications icon last
+                BadgedBox(
+                    badge = {
+                        if (uiState.hasUnreadNotifications) {
+                            Badge { Text("") }
+                        }
+                    }
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Notifications,
+                        contentDescription = "Notifications",
+                        modifier = Modifier.clickable { onNavigateToNotifications() },
+                        tint = MaterialTheme.colorScheme.onBackground
+                    )
+                }
             }
         }
 

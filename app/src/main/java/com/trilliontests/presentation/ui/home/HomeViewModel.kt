@@ -5,12 +5,15 @@ import androidx.lifecycle.viewModelScope
 import com.trilliontests.data.repository.QuizRepository
 import com.trilliontests.model.Document
 import com.trilliontests.model.Quiz
+import com.trilliontests.presentation.ui.components.Notification
+import com.trilliontests.presentation.ui.components.NotificationType
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import java.time.LocalDate
+import java.time.LocalDateTime
 import javax.inject.Inject
 
 data class HomeUiState(
@@ -20,7 +23,9 @@ data class HomeUiState(
     val completedDays: List<Boolean> = emptyList(),
     val recentQuizzes: List<Quiz> = emptyList(),
     val isLoading: Boolean = false,
-    val error: String? = null
+    val error: String? = null,
+    val notifications: List<Notification> = emptyList(),
+    val hasUnreadNotifications: Boolean = false
 )
 
 
@@ -67,6 +72,29 @@ class HomeViewModel @Inject constructor(
                     streakDays = 6,
                     completedDays = listOf(true, true, true, true, true, false)
                 )
+
+                // Add some sample notifications
+                val sampleNotifications = listOf(
+                    Notification(
+                        id = "1",
+                        title = "New Achievement Unlocked!",
+                        message = "You've completed 5 quizzes in a row. Keep up the good work!",
+                        timestamp = LocalDateTime.now().minusHours(2),
+                        type = NotificationType.ACHIEVEMENT
+                    ),
+                    Notification(
+                        id = "2",
+                        title = "Study Reminder",
+                        message = "Don't forget to review your Physics notes today.",
+                        timestamp = LocalDateTime.now().minusDays(1),
+                        type = NotificationType.REMINDER
+                    )
+                )
+
+                _uiState.value = _uiState.value.copy(
+                    notifications = sampleNotifications,
+                    hasUnreadNotifications = sampleNotifications.any { !it.isRead }
+                )
             } catch (e: Exception) {
                 _uiState.value = _uiState.value.copy(
                     isLoading = false,
@@ -82,5 +110,26 @@ class HomeViewModel @Inject constructor(
 
     fun clearError() {
         _uiState.value = _uiState.value.copy(error = null)
+    }
+
+    fun markNotificationAsRead(notificationId: String) {
+        val updatedNotifications = _uiState.value.notifications.map { notification ->
+            if (notification.id == notificationId) {
+                notification.copy(isRead = true)
+            } else {
+                notification
+            }
+        }
+        _uiState.value = _uiState.value.copy(
+            notifications = updatedNotifications,
+            hasUnreadNotifications = updatedNotifications.any { !it.isRead }
+        )
+    }
+
+    fun clearAllNotifications() {
+        _uiState.value = _uiState.value.copy(
+            notifications = emptyList(),
+            hasUnreadNotifications = false
+        )
     }
 } 
