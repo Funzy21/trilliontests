@@ -1,7 +1,7 @@
 package com.trilliontests.presentation.ui.notifications
 
 import androidx.lifecycle.ViewModel
-import com.trilliontests.presentation.ui.components.Notification
+import com.trilliontests.model.Notification
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

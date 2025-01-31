@@ -26,7 +26,6 @@ import com.example.trilliontests.presentation.ui.components.LoginStreakCard
 import java.time.LocalDate
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.trilliontests.presentation.ui.theme.AppIcons
-import com.trilliontests.presentation.ui.components.NotificationsDialog
 import androidx.compose.runtime.getValue
 
 // Placeholder data classes

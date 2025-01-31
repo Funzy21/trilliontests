@@ -14,7 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.trilliontests.presentation.ui.components.Notification
+import com.trilliontests.model.Notification
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 

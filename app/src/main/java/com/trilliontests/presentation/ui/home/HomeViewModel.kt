@@ -5,8 +5,8 @@ import androidx.lifecycle.viewModelScope
 import com.trilliontests.data.repository.QuizRepository
 import com.trilliontests.model.Document
 import com.trilliontests.model.Quiz
-import com.trilliontests.presentation.ui.components.Notification
-import com.trilliontests.presentation.ui.components.NotificationType
+import com.trilliontests.model.Notification
+import com.trilliontests.model.NotificationType
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
